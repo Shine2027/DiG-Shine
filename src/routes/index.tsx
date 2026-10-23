@@ -20,11 +20,11 @@ export const Route = createFileRoute("/")({
 });
 
 const services = [
-  { icon: Orbit, number: "01", title: "AI services", text: "Useful AI, grounded in your business. From customer-facing assistants to custom models and knowledge systems.", tags: ["AI assistants", "Chatbots", "RAG systems", "LLM integration"] },
+  { icon: Orbit, number: "01", title: "AI services", text: "Useful AI, grounded in your business. From customer-facing chatbots and assistants to custom generative AI and knowledge systems.", tags: ["AI assistants", "Generative AI", "RAG systems", "LLM integration"] },
   { icon: Workflow, number: "02", title: "Automation & workflows", text: "Give repetitive work a reliable path. Connect your tools, teams, and data with thoughtful automation.", tags: ["CRM automation", "AI agents", "n8n · Make · Zapier", "Business workflows"] },
-  { icon: Network, number: "03", title: "Performance marketing", text: "Reach the right people and improve what happens next, across paid media, creative, and conversion.", tags: ["Google & Meta Ads", "Paid social", "Lead generation", "CRO"] },
+  { icon: Network, number: "03", title: "Digital & performance marketing", text: "Reach the right people through paid ads, social media, content, and email—then improve every step from click to customer.", tags: ["Google · Meta · LinkedIn Ads", "Social & content", "Email marketing", "Leads · CRO"] },
   { icon: Search, number: "04", title: "SEO · AEO · GEO", text: "Make your business easier to find in search, answers, and the next generation of AI discovery.", tags: ["Technical SEO", "Local SEO", "Answer engines", "AI search"] },
-  { icon: Layers3, number: "05", title: "Brand & growth", text: "Build a clear position in the market, then turn that clarity into a lasting customer relationship.", tags: ["Brand strategy", "Identity", "Content", "Retention"] },
+  { icon: Layers3, number: "05", title: "Brand & growth", text: "Find a distinct place in the market and build the creative, customer journey, and strategy to grow from it.", tags: ["Brand strategy", "Identity · positioning", "Growth planning", "Journey · retention"] },
   { icon: Command, number: "06", title: "Data & analytics", text: "Know what is moving the business. Unite your signals into reporting your team can act on.", tags: ["Dashboards", "Attribution", "Customer journey", "Growth planning"] },
 ];
 const process = [
@@ -77,7 +77,7 @@ function HomePage() {
           <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
             {navItems.map(([label, id]) => <a key={id} href={`#${id}`} className="nav-link">{label}</a>)}
           </nav>
-          <Button asChild variant="brand" size="default" className="hidden md:inline-flex"><a href="#contact">Book a free call <ArrowUpRight aria-hidden="true" /></a></Button>
+          <Button asChild variant="brand" size="lg" className="hidden md:inline-flex"><a href="#contact">Book a free call <ArrowUpRight aria-hidden="true" /></a></Button>
           <Button type="button" variant="outline" size="icon" className="md:hidden" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
         </div>
         {menuOpen && <nav className="mobile-nav grid gap-1 border-t border-border px-5 py-4 md:hidden" aria-label="Mobile navigation">{navItems.map(([label, id]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}<ArrowUpRight aria-hidden="true" /></a>)}<a href="#contact" onClick={() => setMenuOpen(false)}>Book a free call<ArrowUpRight aria-hidden="true" /></a></nav>}
