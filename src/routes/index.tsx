@@ -55,8 +55,8 @@ function HomePage() {
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
-    if (!name || !email || !message) {
-      setFormError("Please complete your name, email, and project details.");
+    if (!name || !email || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFormError("Please enter your name, a valid email address, and project details.");
       return;
     }
     const subject = encodeURIComponent(`Consultation request from ${name}`);
@@ -170,7 +170,7 @@ function HomePage() {
           <form className="contact-form glass-panel" onSubmit={submitLead}>
             {formSent ? <div className="form-success" role="status"><span><Check aria-hidden="true" /></span><h3>Your email draft is ready.</h3><p>Review the message in your email app and send it to DiG Shine to complete your request.</p></div> : <>
               <div className="form-head"><span>START A CONVERSATION</span><ArrowUpRight aria-hidden="true" /></div>
-              <div className="form-fields"><label>Your name<input name="name" autoComplete="name" placeholder="Name" required /></label><label>Email address<input name="email" type="email" autoComplete="email" placeholder="you@company.com" required /></label><label className="form-full">Company <span className="optional-label">OPTIONAL</span><input name="company" autoComplete="organization" placeholder="Company name" /></label><label className="form-full">What would you like to work on?<textarea name="message" rows={4} placeholder="A little about the opportunity or challenge..." required /></label></div>
+              <div className="form-fields"><label>Your name<input name="name" autoComplete="name" placeholder="Name" /></label><label>Email address<input name="email" type="email" autoComplete="email" placeholder="you@company.com" /></label><label className="form-full">Company <span className="optional-label">OPTIONAL</span><input name="company" autoComplete="organization" placeholder="Company name" /></label><label className="form-full">What would you like to work on?<textarea name="message" rows={4} placeholder="A little about the opportunity or challenge..." /></label></div>
               {formError && <p className="form-error" role="alert">{formError}</p>}
               <Button type="submit" variant="brand" size="lg" className="form-submit">Request a free consultation <ArrowUpRight aria-hidden="true" /></Button>
               <p className="form-note">Opens your email app with a message addressed to hello@digshine.com.</p>
