@@ -42,8 +42,8 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#050505]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-3.5"
-          : "bg-transparent py-5"
+          ? "bg-[#060913]/90 backdrop-blur-2xl border-b border-cyan-500/15 shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(0,210,255,0.08)] py-3"
+          : "bg-transparent py-4 sm:py-5"
       }`}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between">
@@ -51,7 +51,7 @@ export function Navbar() {
         <Logo size="md" showTagline={false} />
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-1 bg-white/[0.03] border border-white/[0.08] rounded-full px-4 py-1.5 backdrop-blur-md">
+        <nav className="hidden xl:flex items-center gap-1.5 bg-[#0c1322]/85 border border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-full px-3.5 py-1.5 backdrop-blur-xl">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
 
@@ -65,14 +65,14 @@ export function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors duration-200 rounded-full flex items-center gap-1 ${
+                    className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
                       isActive || pathname.startsWith("/services")
-                        ? "text-[#00C8FF] bg-white/[0.06]"
-                        : "text-[#94A3B8] hover:text-white"
+                        ? "text-[#00F0FF] bg-gradient-to-r from-cyan-500/20 to-blue-500/15 border border-cyan-400/35 shadow-[0_0_15px_rgba(0,240,255,0.25)]"
+                        : "text-slate-300 hover:text-white hover:bg-white/[0.05]"
                     }`}
                   >
                     <span>{link.name}</span>
-                    <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
+                    <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180 text-cyan-400" />
                   </Link>
 
                   {/* Mega Dropdown */}
@@ -119,10 +119,10 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium transition-colors duration-200 rounded-full ${
+                className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold transition-all duration-200 rounded-full ${
                   isActive
-                    ? "text-[#00C8FF] bg-white/[0.06]"
-                    : "text-[#94A3B8] hover:text-white"
+                    ? "text-[#00F0FF] bg-gradient-to-r from-cyan-500/20 to-blue-500/15 border border-cyan-400/35 shadow-[0_0_15px_rgba(0,240,255,0.25)]"
+                    : "text-slate-300 hover:text-white hover:bg-white/[0.05]"
                 }`}
               >
                 {link.name}

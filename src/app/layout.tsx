@@ -48,8 +48,8 @@ export const metadata: Metadata = {
   creator: "DiG Shine",
   icons: {
     icon: "/favicon.svg",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    shortcut: "/logo-mark.png",
+    apple: "/logo-mark.png",
   },
   openGraph: {
     type: "website",

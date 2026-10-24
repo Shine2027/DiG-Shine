@@ -7,9 +7,9 @@ import { SERVICES_DATA, AGENCY_INFO } from "@/data/cms";
 
 export function Footer() {
   return (
-    <footer className="relative bg-[#050505] border-t border-white/10 pt-20 pb-12 overflow-hidden">
+    <footer className="relative bg-[#06080e] border-t border-white/10 pt-20 pb-12 overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-gradient-to-b from-[#00C8FF]/10 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-36 bg-gradient-to-b from-[#00F0FF]/10 via-[#007BFF]/05 to-transparent blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         {/* Top Section: CTA Banner */}
