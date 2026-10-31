@@ -63,10 +63,6 @@ export function Navbar() {
     { name: "About", href: "/about" },
     { name: "Services", href: "/services", hasDropdown: true },
     { name: "Process", href: "/#process" },
-    { name: "Projects", href: "/case-studies" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "Testimonials", href: "/#testimonials" },
-    { name: "Blog", href: "/blog" },
     { name: "FAQ", href: "/faq" },
     { name: "Contact", href: "/contact" },
   ];

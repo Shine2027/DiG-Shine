@@ -120,9 +120,6 @@ export function Footer() {
               <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About Agency</Link></li>
               <li><Link href="/services" className="hover:text-white transition-colors">All Capabilities</Link></li>
-              <li><Link href="/case-studies" className="hover:text-white transition-colors">Case Studies &amp; Work</Link></li>
-              <li><Link href="/pricing" className="hover:text-white transition-colors">Pricing &amp; Calculator</Link></li>
-              <li><Link href="/blog" className="hover:text-white transition-colors">Insights &amp; Articles</Link></li>
               <li><Link href="/careers" className="hover:text-white transition-colors">Careers (Hiring)</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ &amp; Knowledge</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Leadership</Link></li>

@@ -43,7 +43,7 @@ Designed around the official **DiG Shine** emblem:
 
 | Route | Description | Rendering |
 |---|---|---|
-| `/` | Landing page (Hero 3D, Stats, 8 Services, 6-Step Protocol, Case Studies, Pricing, Calculator, Testimonials, FAQ, Booking Form) | Static (SSG) |
+| `/` | Landing page (Hero 3D, Stats, 8 Services, 6-Step Protocol, Industries, FAQ, Booking Form) | Static (SSG) |
 | `/about` | Agency philosophy, Karan Verma & Manoj executive bios, agency DNA | Static (SSG) |
 | `/services` | Comprehensive services hub with all 8 core pillars | Static (SSG) |
 | `/services/[slug]` | Individual deep-dive service pages (deliverables, architecture, tech stack, FAQs) | SSG (Dynamic) |

@@ -4,12 +4,10 @@ import { ArrowUpRight, ArrowRight, Sparkles, CheckCircle2, Shield, Zap, Trending
 import { HeroCanvas } from "@/components/home/HeroCanvas";
 import { StatsCounter } from "@/components/home/StatsCounter";
 import { ProcessSection } from "@/components/home/ProcessSection";
-import { PricingCalculator } from "@/components/home/PricingCalculator";
-import { TestimonialSlider } from "@/components/home/TestimonialSlider";
 import { TechMarquee } from "@/components/home/TechMarquee";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { ContactSection } from "@/components/home/ContactSection";
-import { SERVICES_DATA, CASE_STUDIES, INDUSTRIES_SERVED, AGENCY_INFO } from "@/data/cms";
+import { SERVICES_DATA, INDUSTRIES_SERVED, AGENCY_INFO } from "@/data/cms";
 
 export default function HomePage() {
   const serviceIcons = [Globe, Cpu, Workflow, Sparkles, TrendingUp, BarChart3, Target, Search];
@@ -353,88 +351,6 @@ export default function HomePage() {
           THE 6-STEP PROCESS
       ========================================================================== */}
       <ProcessSection />
-
-      {/* =========================================================================
-          FEATURED WORK & CASE STUDIES
-      ========================================================================== */}
-      <section id="work" className="py-24 sm:py-32 relative bg-[#050505] border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div>
-              <span className="badge-glow mb-3">DOCUMENTED IMPACT</span>
-              <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
-                Featured Case Studies &amp; <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00C8FF] via-[#00F0FF] to-[#10B981]">
-                  High-Impact Transformations
-                </span>
-              </h2>
-            </div>
-            <Link
-              href="/case-studies"
-              className="btn-secondary !py-3 !px-6 text-xs uppercase tracking-wider"
-            >
-              View All 8 Case Studies →
-            </Link>
-          </div>
-
-          {/* Featured Case Studies Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {CASE_STUDIES.slice(0, 4).map((cs) => (
-              <div
-                key={cs.id}
-                className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/10 hover:border-[#00C8FF]/40 transition-all duration-300 group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono text-[#00C8FF] px-2.5 py-1 rounded-lg bg-[#00C8FF]/10 border border-[#00C8FF]/20">
-                      {cs.category}
-                    </span>
-                    <span className="text-xs text-[#94A3B8] font-mono">{cs.industry}</span>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-[#00C8FF] transition-colors mb-3">
-                    {cs.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-[#94A3B8] leading-relaxed mb-6">
-                    {cs.summary}
-                  </p>
-
-                  {/* Highlight Metrics */}
-                  <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-white/[0.03] border border-white/5 mb-6">
-                    {cs.metrics.map((m) => (
-                      <div key={m.label}>
-                        <div className="text-base sm:text-lg font-bold font-display text-white group-hover:text-[#10B981] transition-colors">
-                          {m.value}
-                        </div>
-                        <p className="text-[10px] text-[#94A3B8] leading-tight mt-0.5">{m.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <Link
-                  href={`/case-studies/${cs.slug}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00C8FF] hover:underline"
-                >
-                  <span>Read Full Architecture Breakdown</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          PRICING & INTERACTIVE CALCULATOR
-      ========================================================================== */}
-      <PricingCalculator />
-
-      {/* =========================================================================
-          TESTIMONIALS SLIDER
-      ========================================================================== */}
-      <TestimonialSlider />
 
       {/* =========================================================================
           INDUSTRIES WE SERVE
