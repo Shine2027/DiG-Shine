@@ -741,27 +741,6 @@ export const INDUSTRIES_SERVED = [
   { name: "Technology & AI", icon: "Cpu", desc: "Category-defining brand authority & developer ecosystem growth" },
 ];
 
-export const TECH_STACK = [
-  { name: "Next.js", category: "Frontend & Full Stack" },
-  { name: "React", category: "UI Architecture" },
-  { name: "TypeScript", category: "Type-Safe Engineering" },
-  { name: "Node.js", category: "Backend Runtimes" },
-  { name: "Python", category: "AI & Data Science" },
-  { name: "OpenAI", category: "LLM & Foundation Models" },
-  { name: "Anthropic Claude", category: "Advanced Reasoning" },
-  { name: "Google Gemini", category: "Multimodal AI" },
-  { name: "LangChain", category: "Autonomous Agent Orchestration" },
-  { name: "n8n", category: "Enterprise Workflow Automation" },
-  { name: "Make.com", category: "API Integrations" },
-  { name: "Zapier", category: "Cloud Connectors" },
-  { name: "PostgreSQL", category: "Relational Data" },
-  { name: "MongoDB", category: "Document Storage" },
-  { name: "Docker", category: "Containerization" },
-  { name: "AWS", category: "Cloud Infrastructure" },
-  { name: "Vercel", category: "Edge Delivery Network" },
-  { name: "Tailwind CSS", category: "Modern Styling" },
-];
-
 export const FAQ_DATA = [
   {
     category: "General",

@@ -4,7 +4,6 @@ import { ArrowUpRight, ArrowRight, Sparkles, CheckCircle2, Shield, Zap, Trending
 import { HeroCanvas } from "@/components/home/HeroCanvas";
 import { StatsCounter } from "@/components/home/StatsCounter";
 import { ProcessSection } from "@/components/home/ProcessSection";
-import { TechMarquee } from "@/components/home/TechMarquee";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { ContactSection } from "@/components/home/ContactSection";
 import { SERVICES_DATA, INDUSTRIES_SERVED, AGENCY_INFO } from "@/data/cms";
@@ -390,11 +389,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* =========================================================================
-          TECHNOLOGY ARSENAL
-      ========================================================================== */}
-      <TechMarquee />
 
       {/* =========================================================================
           FAQ ACCORDION WITH INSTANT SEARCH
