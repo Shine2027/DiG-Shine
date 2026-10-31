@@ -110,8 +110,9 @@ The admin password and signing secret must be set before using the dashboard. Us
 This project is configured out-of-the-box for **1-click Vercel deployment**:
 1. Push your repository to GitHub (`main` branch).
 2. Import the project into the [Vercel Dashboard](https://vercel.com).
-3. Framework Preset: **Next.js** (auto-detected).
-4. Click **Deploy**.
+3. In **Project Settings → Environment Variables**, set `DATABASE_URL` to the connection string for your managed PostgreSQL database. Add it to every environment where leads should be stored (Production, and Preview if needed).
+4. Framework Preset: **Next.js** (auto-detected). The build runs `prisma migrate deploy` before building the app, applying checked-in migrations to that database. A missing or unreachable database causes the deployment to fail instead of deploying a form that cannot save requests.
+5. Click **Deploy**.
 
 ---
 
