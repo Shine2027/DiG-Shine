@@ -9,6 +9,7 @@ export function ContactSection() {
   const [selectedServices, setSelectedServices] = useState<string[]>(["AI Services & Copilots"]);
   const [selectedBudget, setSelectedBudget] = useState("$5,000 – $15,000");
   const [formSent, setFormSent] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -68,6 +69,7 @@ export function ContactSection() {
       }
 
       setLoading(false);
+      setConfirmationMessage(data.message);
       setFormSent(true);
 
       // Launch celebratory confetti only on confirmed API success
@@ -181,7 +183,7 @@ export function ContactSection() {
                     Consultation Request Confirmed
                   </h3>
                   <p className="text-sm text-[#94A3B8] max-w-md mx-auto leading-relaxed">
-                    Thank you. Founder Karan Verma and co-founder Manoj have received your dossier. We will prepare your preliminary growth audit and contact you within 6 business hours.
+                    {confirmationMessage || "Thank you. Your consultation request has been received. Our team will be in touch soon."}
                   </p>
                   <button
                     onClick={() => {

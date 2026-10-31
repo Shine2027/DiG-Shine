@@ -36,6 +36,8 @@ Designed around the official **DiG Shine** emblem:
 - **Icons:** Lucide React
 - **Celebration Effects:** Canvas Confetti
 - **Lead API:** `/api/contact` endpoint
+- **Lead storage:** PostgreSQL via Prisma ORM
+- **Lead management:** Password-protected `/admin/leads` dashboard
 
 ---
 
@@ -60,7 +62,8 @@ Designed around the official **DiG Shine** emblem:
 | `/not-found` | Futuristic quantum node 404 page | Static (SSG) |
 | `/sitemap.xml` | Dynamic SEO sitemap with priority weighting | Metadata API |
 | `/robots.txt` | Crawler instructions and sitemap links | Metadata API |
-| `/api/contact` | Consultation lead handler and logging | API Route |
+| `/api/contact` | Validates and stores consultation leads, then emails the team | API Route |
+| `/admin/leads` | Password-protected searchable lead dashboard and CSV export | Dynamic |
 
 ---
 
@@ -85,6 +88,20 @@ Designed around the official **DiG Shine** emblem:
    ```bash
    npm run start
    ```
+
+## 📇 Lead Management Setup
+
+1. Copy `.env.example` to `.env.local` and configure `DATABASE_URL`, `ADMIN_PASSWORD` (at least 16 characters), and `ADMIN_SESSION_SECRET` (at least 32 random characters). Keep these values private and set them in the hosting provider's secret environment configuration.
+2. Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`). New lead alerts are sent to `hello@digshine.com`; if delivery is unavailable, the lead is still stored and marked as not notified in the admin dashboard.
+3. Apply the checked-in database migration and generate the Prisma client:
+   ```bash
+   npm run db:migrate
+   npm run db:generate
+   ```
+   For a new local database, `npx prisma migrate dev` can create/apply a development migration.
+4. Visit `/admin/leads` and sign in with `ADMIN_PASSWORD`. Admin API routes require a signed, HTTP-only, same-site session cookie.
+
+The admin password and signing secret must be set before using the dashboard. Use a managed PostgreSQL provider and an SMTP provider in production. Add provider-level rate limiting/WAF rules for public form and admin login traffic when deploying.
 
 ---
 
