@@ -29,10 +29,10 @@ export function ProcessSection() {
 
         {/* Process Flow Grid */}
         <div className="relative">
-          {/* Animated Connecting Line on Desktop */}
-          <div className="hidden lg:block absolute top-[52px] left-[5%] right-[5%] h-0.5 bg-gradient-to-r from-[#00C8FF] via-[#007BFF] to-[#10B981] opacity-30 z-0" />
+          {/* Animated Connecting Line on Large Desktop */}
+          <div className="hidden xl:block absolute top-[52px] left-[5%] right-[5%] h-0.5 bg-gradient-to-r from-[#00C8FF] via-[#007BFF] to-[#10B981] opacity-30 z-0" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 relative z-10">
             {PROCESS_STEPS.map((step, idx) => (
               <div
                 key={step.step}
@@ -59,7 +59,7 @@ export function ProcessSection() {
                 </div>
 
                 {/* Bottom Step Indicator */}
-                <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-[#64748B] group-hover:text-[#10B981] transition-colors">
+                <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-[#94A3B8] group-hover:text-[#10B981] transition-colors">
                   <span className="flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" /> Phase {idx + 1}
                   </span>

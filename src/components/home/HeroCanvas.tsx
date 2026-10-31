@@ -10,18 +10,24 @@ export function HeroCanvas() {
     const container = mountRef.current;
     if (!container) return;
 
+    // Check user preference for reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     // Scene, Camera, Renderer
     const scene = new THREE.Scene();
+    const width = container.clientWidth || 300;
+    const height = container.clientHeight || 460;
+
     const camera = new THREE.PerspectiveCamera(
       45,
-      container.clientWidth / container.clientHeight,
+      width / (height || 1),
       0.1,
       1000
     );
     camera.position.z = 18;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
@@ -117,58 +123,89 @@ export function HeroCanvas() {
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
       targetX = x * 1.2;
       targetY = y * 1.2;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (!prefersReducedMotion) {
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    }
 
     // Resize Handler
     const handleResize = () => {
       if (!container) return;
-      camera.aspect = container.clientWidth / container.clientHeight;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(w, h);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Track visibility: pause animation when canvas is scrolled out of viewport
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry?.isIntersecting ?? true;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
 
     // Animation Loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
-      const elapsedTime = clock.getElapsedTime();
+      if (isVisible) {
+        const elapsedTime = clock.getElapsedTime();
 
-      // Smooth camera parallax
-      mouseX += (targetX - mouseX) * 0.05;
-      mouseY += (targetY - mouseY) * 0.05;
-      worldGroup.rotation.y = mouseX * 0.8 + elapsedTime * 0.12;
-      worldGroup.rotation.x = -mouseY * 0.8;
+        if (!prefersReducedMotion) {
+          // Smooth camera parallax
+          mouseX += (targetX - mouseX) * 0.05;
+          mouseY += (targetY - mouseY) * 0.05;
+          worldGroup.rotation.y = mouseX * 0.8 + elapsedTime * 0.12;
+          worldGroup.rotation.x = -mouseY * 0.8;
 
-      // Rotate sub-elements
-      coreMesh.rotation.y = elapsedTime * 0.25;
-      coreMesh.rotation.x = elapsedTime * 0.15;
-      nucleusMesh.rotation.y = -elapsedTime * 0.4;
-      nucleusMesh.rotation.z = elapsedTime * 0.2;
+          // Rotate sub-elements
+          coreMesh.rotation.y = elapsedTime * 0.25;
+          coreMesh.rotation.x = elapsedTime * 0.15;
+          nucleusMesh.rotation.y = -elapsedTime * 0.4;
+          nucleusMesh.rotation.z = elapsedTime * 0.2;
 
-      ring1.rotation.z = elapsedTime * 0.2;
-      ring2.rotation.x = elapsedTime * 0.15;
+          ring1.rotation.z = elapsedTime * 0.2;
+          ring2.rotation.x = elapsedTime * 0.15;
 
-      particleSystem.rotation.y = -elapsedTime * 0.08;
+          particleSystem.rotation.y = -elapsedTime * 0.08;
+        }
 
-      renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
     };
 
-    animate();
+    // Render initial frame or start loop
+    if (prefersReducedMotion) {
+      renderer.render(scene, camera);
+    } else {
+      animate();
+    }
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
-      if (container && renderer.domElement) {
+      observer.disconnect();
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      if (container && renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
       renderer.dispose();
@@ -176,6 +213,10 @@ export function HeroCanvas() {
       coreMaterial.dispose();
       nucleusGeometry.dispose();
       nucleusMaterial.dispose();
+      ringGeo1.dispose();
+      ringMat1.dispose();
+      ringGeo2.dispose();
+      ringMat2.dispose();
       particleGeo.dispose();
       particleMat.dispose();
     };

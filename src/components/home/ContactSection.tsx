@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import confetti from "canvas-confetti";
-import { ArrowUpRight, Check, Send, Phone, Mail, MapPin, Sparkles, User, Building, DollarSign } from "lucide-react";
+import { ArrowUpRight, Check, Send, Phone, Mail, MapPin, Sparkles, User, Building, DollarSign, AlertCircle } from "lucide-react";
 import { AGENCY_INFO } from "@/data/cms";
 
 export function ContactSection() {
-  const [selectedServices, setSelectedServices] = useState<string[]>(["AI Services"]);
+  const [selectedServices, setSelectedServices] = useState<string[]>(["AI Services & Copilots"]);
   const [selectedBudget, setSelectedBudget] = useState("$5,000 – $15,000");
   const [formSent, setFormSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const availableServices = [
     "AI Services & Copilots",
@@ -40,6 +41,7 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage(null);
 
     const formData = new FormData(e.currentTarget);
     const payload = {
@@ -53,25 +55,36 @@ export function ContactSection() {
     };
 
     try {
-      await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-    } catch (err) {
-      console.log("Local fallback mailto trigger");
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Unable to send your inquiry at this moment.");
+      }
+
+      setLoading(false);
+      setFormSent(true);
+
+      // Launch celebratory confetti only on confirmed API success
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#00C8FF", "#007BFF", "#10B981", "#FFFFFF"],
+      });
+    } catch (err: unknown) {
+      setLoading(false);
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : "Network communication error. Please try again or contact hello@digshine.com directly."
+      );
     }
-
-    setLoading(false);
-    setFormSent(true);
-
-    // Launch celebratory confetti
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ["#00C8FF", "#007BFF", "#10B981", "#FFFFFF"],
-    });
   };
 
   return (
@@ -128,13 +141,13 @@ export function ContactSection() {
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-[#00C8FF]">
                     <Mail className="w-4 h-4" />
                   </div>
-                  <span>Direct Desk: <strong className="text-white">hello@digshine.com</strong></span>
+                  <span>Direct Desk: <a href={`mailto:${AGENCY_INFO.email}`} className="text-white hover:text-[#00C8FF] transition-colors font-semibold">{AGENCY_INFO.email}</a></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-[#10B981]">
                     <Phone className="w-4 h-4" />
                   </div>
-                  <span>Direct Helpline: <strong className="text-white">+91-XXXXXXXXXX</strong></span>
+                  <span>Direct Helpline: <a href={`tel:${AGENCY_INFO.phone}`} className="text-white hover:text-[#10B981] transition-colors font-semibold">{AGENCY_INFO.phone}</a></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-[#007BFF]">
@@ -160,7 +173,7 @@ export function ContactSection() {
           <div className="lg:col-span-7">
             <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] relative">
               {formSent ? (
-                <div className="py-16 text-center space-y-4">
+                <div className="py-16 text-center space-y-4" role="status" aria-live="polite">
                   <div className="w-16 h-16 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 text-[#10B981] flex items-center justify-center mx-auto">
                     <Check className="w-8 h-8" />
                   </div>
@@ -171,19 +184,22 @@ export function ContactSection() {
                     Thank you. Founder Karan Verma and co-founder Manoj have received your dossier. We will prepare your preliminary growth audit and contact you within 6 business hours.
                   </p>
                   <button
-                    onClick={() => setFormSent(false)}
+                    onClick={() => {
+                      setFormSent(false);
+                      setErrorMessage(null);
+                    }}
                     className="btn-secondary !py-2.5 !px-6 !text-xs mt-4"
                   >
                     Send Another Request
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" noValidate={false}>
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-wider text-[#94A3B8] mb-2.5">
                       1. SELECT SERVICES OF INTEREST
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2" role="group" aria-label="Services of interest">
                       {availableServices.map((srv) => {
                         const selected = selectedServices.includes(srv);
                         return (
@@ -191,6 +207,7 @@ export function ContactSection() {
                             type="button"
                             key={srv}
                             onClick={() => toggleService(srv)}
+                            aria-pressed={selected}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                               selected
                                 ? "bg-[#00C8FF] text-[#050505] font-semibold shadow-glow-blue"
@@ -208,12 +225,13 @@ export function ContactSection() {
                     <label className="block text-xs font-mono uppercase tracking-wider text-[#94A3B8] mb-2.5">
                       2. ESTIMATED MONTHLY BUDGET
                     </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" role="group" aria-label="Estimated monthly budget tiers">
                       {budgetTiers.map((tier) => (
                         <button
                           type="button"
                           key={tier}
                           onClick={() => setSelectedBudget(tier)}
+                          aria-pressed={selectedBudget === tier}
                           className={`p-2.5 rounded-xl text-xs font-medium text-center transition-all ${
                             selectedBudget === tier
                               ? "bg-gradient-to-r from-[#00C8FF]/20 to-[#10B981]/20 border border-[#00C8FF] text-[#00C8FF]"
@@ -229,50 +247,59 @@ export function ContactSection() {
                   {/* Form Input Fields */}
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Your Name *</label>
+                      <label htmlFor="contact-form-name" className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Your Name *</label>
                       <input
+                        id="contact-form-name"
                         type="text"
                         name="name"
                         required
                         placeholder="Karan Verma"
+                        autoComplete="name"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-[#64748B] focus:outline-none focus:border-[#00C8FF]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Work Email *</label>
+                      <label htmlFor="contact-form-email" className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Work Email *</label>
                       <input
+                        id="contact-form-email"
                         type="email"
                         name="email"
                         required
                         placeholder="you@company.com"
+                        autoComplete="email"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-[#64748B] focus:outline-none focus:border-[#00C8FF]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Phone / WhatsApp</label>
+                      <label htmlFor="contact-form-phone" className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Phone / WhatsApp</label>
                       <input
+                        id="contact-form-phone"
                         type="tel"
                         name="phone"
-                        placeholder="+91-XXXXXXXXXX"
+                        placeholder="+91 98765 43210"
+                        autoComplete="tel"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-[#64748B] focus:outline-none focus:border-[#00C8FF]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Company / Website</label>
+                      <label htmlFor="contact-form-company" className="block text-xs text-[#94A3B8] mb-1.5 font-medium">Company / Website</label>
                       <input
+                        id="contact-form-company"
                         type="text"
                         name="company"
                         placeholder="Company name or URL"
+                        autoComplete="organization"
                         className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-[#64748B] focus:outline-none focus:border-[#00C8FF]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs text-[#94A3B8] mb-1.5 font-medium">
+                    <label htmlFor="contact-form-message" className="block text-xs text-[#94A3B8] mb-1.5 font-medium">
                       What are your core growth bottlenecks or automation goals? *
                     </label>
                     <textarea
+                      id="contact-form-message"
                       name="message"
                       rows={3}
                       required
@@ -281,10 +308,20 @@ export function ContactSection() {
                     />
                   </div>
 
+                  {errorMessage && (
+                    <div
+                      role="alert"
+                      className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-300 flex items-start gap-3 animate-in fade-in"
+                    >
+                      <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full btn-primary !py-4 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2"
+                    className="w-full btn-primary !py-4 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <span>Scheduling Your Consultation...</span>
@@ -296,7 +333,7 @@ export function ContactSection() {
                     )}
                   </button>
 
-                  <p className="text-[11px] text-center text-[#64748B]">
+                  <p className="text-[11px] text-center text-[#94A3B8]">
                     🔒 Guaranteed 100% strict NDA confidentiality. Zero spam, ever.
                   </p>
                 </form>

@@ -39,7 +39,10 @@ export default function PricingPage() {
           </div>
 
           <div className="glass-panel rounded-3xl p-6 sm:p-10 border border-white/10 overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm">
+            <div className="sm:hidden text-center text-[11px] font-mono text-[#00C8FF] mb-3">
+              ↔ Scroll horizontally to view all tiers
+            </div>
+            <table className="w-full min-w-[600px] text-left text-xs sm:text-sm">
               <thead>
                 <tr className="border-b border-white/10 text-white font-mono uppercase text-[11px]">
                   <th className="pb-4 font-bold">Capabilities</th>

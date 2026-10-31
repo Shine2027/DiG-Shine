@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { AGENCY_INFO } from "@/data/cms";
 import { Trophy, CheckCircle, Clock, TrendingUp, Zap } from "lucide-react";
 
@@ -16,7 +15,7 @@ export function StatsCounter() {
             return (
               <div
                 key={stat.label}
-                className="glass-card rounded-2xl p-5 border border-white/[0.07] hover:border-[#00C8FF]/40 transition-all duration-300 flex flex-col justify-between group"
+                className="glass-card rounded-2xl p-5 border border-white/[0.07] hover:border-[#00C8FF]/40 transition-all duration-300 flex flex-col justify-between group last:col-span-2 md:last:col-span-1"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-8 h-8 rounded-lg bg-[#00C8FF]/10 border border-[#00C8FF]/20 flex items-center justify-center text-[#00C8FF] group-hover:scale-110 transition-transform">

@@ -1,11 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
-import { ArrowUpRight, Github, Linkedin, Twitter, Youtube, Send, ShieldCheck, Heart } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Twitter, Youtube, Send, ShieldCheck, Heart, CheckCircle2 } from "lucide-react";
 import { SERVICES_DATA, AGENCY_INFO } from "@/data/cms";
 
 export function Footer() {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+    setSubscribed(true);
+    setNewsletterEmail("");
+  };
+
   return (
     <footer className="relative bg-[#06080e] border-t border-white/10 pt-20 pb-12 overflow-hidden">
       {/* Background ambient lighting */}
@@ -69,7 +80,7 @@ export function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#94A3B8] hover:text-[#00C8FF] hover:border-[#00C8FF]/40 transition-colors"
+                  className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-[#94A3B8] hover:text-[#00C8FF] hover:border-[#00C8FF]/40 focus:outline-none focus:ring-1 focus:ring-[#00C8FF] transition-colors"
                   aria-label={label}
                 >
                   <Icon className="w-4 h-4" />
@@ -89,7 +100,7 @@ export function Footer() {
                 <li key={service.slug}>
                   <Link
                     href={`/services/${service.slug}`}
-                    className="hover:text-white transition-colors flex items-center justify-between group"
+                    className="hover:text-white transition-colors flex items-center justify-between group focus:outline-none focus:text-[#00C8FF]"
                   >
                     <span>{service.title}</span>
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 text-[#00C8FF] transition-opacity" />
@@ -127,29 +138,35 @@ export function Footer() {
             <p className="text-xs text-[#94A3B8] mb-3 leading-relaxed">
               Subscribe to our bi-weekly executive dispatch on autonomous AI, GEO, and revenue engineering.
             </p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert("Thank you for subscribing to DiG Shine insights!");
-              }}
-              className="space-y-2"
-            >
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="executive@company.com"
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-[#64748B] focus:outline-none focus:border-[#00C8FF]"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded-lg bg-[#00C8FF] text-[#050505] hover:bg-[#00F0FF] transition-colors"
-                  aria-label="Subscribe"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                </button>
+
+            {subscribed ? (
+              <div className="p-3 rounded-xl bg-[#10B981]/10 border border-[#10B981]/30 text-xs text-[#10B981] flex items-center gap-2" role="status">
+                <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                <span>Thank you for subscribing to executive insights!</span>
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+                <div className="relative">
+                  <input
+                    id="newsletter-email"
+                    type="email"
+                    aria-label="Email address for executive newsletter"
+                    placeholder="executive@company.com"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    required
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-[#64748B] focus:outline-none focus:border-[#00C8FF]"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded-lg bg-[#00C8FF] text-[#050505] hover:bg-[#00F0FF] focus:outline-none focus:ring-1 focus:ring-white transition-colors"
+                    aria-label="Subscribe to newsletter"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </form>
+            )}
 
             {/* System Status Indicator */}
             <div className="mt-6 p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-2.5 text-[11px] text-[#94A3B8]">
@@ -163,7 +180,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Section: Legal & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#94A3B8]">
           <div className="flex items-center gap-2">
             <span>© 2026 {AGENCY_INFO.name}. All rights reserved.</span>
             <span>•</span>

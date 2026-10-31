@@ -34,10 +34,16 @@ export function PricingCalculator() {
           </p>
 
           {/* Billing Switch */}
-          <div className="mt-8 inline-flex items-center gap-3 p-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+          <div
+            role="group"
+            aria-label="Billing frequency selection"
+            className="mt-8 inline-flex items-center gap-3 p-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md"
+          >
             <button
+              type="button"
               onClick={() => setAnnualBilling(false)}
-              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+              aria-pressed={!annualBilling}
+              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all focus:outline-none focus:ring-1 focus:ring-[#00C8FF] ${
                 !annualBilling
                   ? "bg-[#00C8FF] text-[#050505] shadow-glow-blue"
                   : "text-[#94A3B8] hover:text-white"
@@ -46,8 +52,10 @@ export function PricingCalculator() {
               Monthly Sprints
             </button>
             <button
+              type="button"
               onClick={() => setAnnualBilling(true)}
-              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2 ${
+              aria-pressed={annualBilling}
+              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2 focus:outline-none focus:ring-1 focus:ring-[#00C8FF] ${
                 annualBilling
                   ? "bg-gradient-to-r from-[#00C8FF] to-[#10B981] text-[#050505] shadow-glow-cyan"
                   : "text-[#94A3B8] hover:text-white"
@@ -106,7 +114,7 @@ export function PricingCalculator() {
 
                   {/* Features list */}
                   <div className="space-y-3 mb-8">
-                    <p className="text-[11px] font-mono uppercase tracking-widest text-[#64748B]">
+                    <p className="text-[11px] font-mono uppercase tracking-widest text-[#94A3B8]">
                       WHAT&apos;S INCLUDED:
                     </p>
                     {plan.features.map((feat) => (
@@ -130,7 +138,7 @@ export function PricingCalculator() {
                     <span>{plan.ctaText}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </Link>
-                  <p className="text-[11px] text-center text-[#64748B] mt-3">
+                  <p className="text-[11px] text-center text-[#94A3B8] mt-3">
                     {plan.idealFor}
                   </p>
                 </div>
@@ -163,17 +171,25 @@ export function PricingCalculator() {
             <div className="space-y-6">
               <div>
                 <div className="flex items-center justify-between text-xs font-mono mb-2">
-                  <span className="text-[#94A3B8]">CURRENT MONTHLY REVENUE</span>
+                  <label htmlFor="slider-current-rev" className="text-[#94A3B8] cursor-pointer">
+                    CURRENT MONTHLY REVENUE
+                  </label>
                   <span className="text-[#00C8FF] font-bold text-sm">
                     ${currentRevenue.toLocaleString()}
                   </span>
                 </div>
                 <input
+                  id="slider-current-rev"
                   type="range"
                   min="10000"
                   max="500000"
                   step="5000"
                   value={currentRevenue}
+                  aria-label="Current Monthly Revenue"
+                  aria-valuemin={10000}
+                  aria-valuemax={500000}
+                  aria-valuenow={currentRevenue}
+                  aria-valuetext={`$${currentRevenue.toLocaleString()} per month`}
                   onChange={(e) => setCurrentRevenue(Number(e.target.value))}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#00C8FF]"
                 />
@@ -181,15 +197,23 @@ export function PricingCalculator() {
 
               <div>
                 <div className="flex items-center justify-between text-xs font-mono mb-2">
-                  <span className="text-[#94A3B8]">EXPECTED EFFICIENCY &amp; CONVERSION LIFT</span>
+                  <label htmlFor="slider-growth-target" className="text-[#94A3B8] cursor-pointer">
+                    EXPECTED EFFICIENCY &amp; CONVERSION LIFT
+                  </label>
                   <span className="text-[#10B981] font-bold text-sm">{growthTarget}%</span>
                 </div>
                 <input
+                  id="slider-growth-target"
                   type="range"
                   min="15"
                   max="60"
                   step="5"
                   value={growthTarget}
+                  aria-label="Expected Efficiency and Conversion Lift Percentage"
+                  aria-valuemin={15}
+                  aria-valuemax={60}
+                  aria-valuenow={growthTarget}
+                  aria-valuetext={`${growthTarget} percent lift`}
                   onChange={(e) => setGrowthTarget(Number(e.target.value))}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#10B981]"
                 />

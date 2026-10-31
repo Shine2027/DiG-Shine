@@ -6,6 +6,7 @@ import { Star, ChevronLeft, ChevronRight, Quote, ShieldCheck } from "lucide-reac
 
 export function TestimonialSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const nextTestimonial = () => {
     setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -16,11 +17,17 @@ export function TestimonialSlider() {
   };
 
   useEffect(() => {
+    // Disable auto-advance if reduced motion is preferred or if paused by user hover/focus
+    if (isPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const timer = setInterval(() => {
       nextTestimonial();
     }, 7000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [isPaused]);
 
   const current = TESTIMONIALS[activeIndex] || TESTIMONIALS[0]!;
 
@@ -43,14 +50,14 @@ export function TestimonialSlider() {
           <div className="flex items-center gap-3">
             <button
               onClick={prevTestimonial}
-              className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-white hover:text-[#00C8FF] hover:border-[#00C8FF]/40 transition-colors"
+              className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-white hover:text-[#00C8FF] hover:border-[#00C8FF]/40 focus:outline-none focus:ring-1 focus:ring-[#00C8FF] transition-colors"
               aria-label="Previous Testimonial"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextTestimonial}
-              className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-white hover:text-[#00C8FF] hover:border-[#00C8FF]/40 transition-colors"
+              className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-white hover:text-[#00C8FF] hover:border-[#00C8FF]/40 focus:outline-none focus:ring-1 focus:ring-[#00C8FF] transition-colors"
               aria-label="Next Testimonial"
             >
               <ChevronRight className="w-5 h-5" />
@@ -59,7 +66,13 @@ export function TestimonialSlider() {
         </div>
 
         {/* Big Testimonial Feature Card */}
-        <div className="glass-panel rounded-3xl p-8 sm:p-14 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.7)] relative overflow-hidden transition-all duration-500">
+        <div
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+          className="glass-panel rounded-3xl p-8 sm:p-14 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.7)] relative overflow-hidden transition-all duration-500"
+        >
           <Quote className="absolute top-8 right-8 w-24 h-24 text-white/[0.03] pointer-events-none" />
 
           {/* Star Rating */}
@@ -92,15 +105,16 @@ export function TestimonialSlider() {
             </div>
 
             {/* Pagination Dots */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" role="group" aria-label="Testimonial navigation dots">
               {TESTIMONIALS.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
+                  className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-[#00C8FF] ${
                     activeIndex === idx ? "w-8 bg-[#00C8FF]" : "w-2 bg-white/20 hover:bg-white/40"
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}
+                  aria-current={activeIndex === idx ? "true" : undefined}
                 />
               ))}
             </div>

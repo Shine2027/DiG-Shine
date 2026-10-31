@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
@@ -11,6 +11,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdown, setServicesDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -24,6 +26,37 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Keyboard accessibility: close menus on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        setServicesDropdown(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  // Handle focus leaving services dropdown
+  const handleDropdownBlur = (e: React.FocusEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.relatedTarget as Node)) {
+      setServicesDropdown(false);
+    }
+  };
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -51,7 +84,10 @@ export function Navbar() {
         <Logo size="md" showTagline={false} />
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-1.5 bg-[#0c1322]/85 border border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-full px-3.5 py-1.5 backdrop-blur-xl">
+        <nav
+          aria-label="Main navigation"
+          className="hidden xl:flex items-center gap-1.5 bg-[#0c1322]/85 border border-white/10 shadow-[0_4px_25px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)] rounded-full px-3.5 py-1.5 backdrop-blur-xl"
+        >
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
 
@@ -59,30 +95,40 @@ export function Navbar() {
               return (
                 <div
                   key={link.name}
+                  ref={dropdownRef}
                   className="relative group"
                   onMouseEnter={() => setServicesDropdown(true)}
                   onMouseLeave={() => setServicesDropdown(false)}
+                  onBlur={handleDropdownBlur}
                 >
                   <Link
                     href={link.href}
-                    className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
+                    aria-haspopup="true"
+                    aria-expanded={servicesDropdown}
+                    className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold transition-all duration-200 rounded-full flex items-center gap-1 focus:outline-none focus:ring-1 focus:ring-[#00C8FF] ${
                       isActive || pathname.startsWith("/services")
                         ? "text-[#00F0FF] bg-gradient-to-r from-cyan-500/20 to-blue-500/15 border border-cyan-400/35 shadow-[0_0_15px_rgba(0,240,255,0.25)]"
                         : "text-slate-300 hover:text-white hover:bg-white/[0.05]"
                     }`}
                   >
                     <span>{link.name}</span>
-                    <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180 text-cyan-400" />
+                    <ChevronDown className={`w-3 h-3 transition-transform duration-200 text-cyan-400 ${servicesDropdown ? "rotate-180" : ""}`} />
                   </Link>
 
                   {/* Mega Dropdown */}
                   {servicesDropdown && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[540px] glass-panel rounded-2xl p-4 border border-[#00C8FF]/20 shadow-[0_20px_50px_rgba(0,0,0,0.8)] grid grid-cols-2 gap-2 animate-in fade-in zoom-in-95 duration-200">
+                    <div
+                      role="menu"
+                      aria-label="Services dropdown"
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[540px] glass-panel rounded-2xl p-4 border border-[#00C8FF]/20 shadow-[0_20px_50px_rgba(0,0,0,0.8)] grid grid-cols-2 gap-2 animate-in fade-in zoom-in-95 duration-200"
+                    >
                       {SERVICES_DATA.slice(0, 6).map((service) => (
                         <Link
                           key={service.slug}
+                          role="menuitem"
                           href={`/services/${service.slug}`}
-                          className="p-2.5 rounded-xl hover:bg-white/[0.05] transition-all group/item flex items-start gap-2.5"
+                          onClick={() => setServicesDropdown(false)}
+                          className="p-2.5 rounded-xl hover:bg-white/[0.05] transition-all group/item flex items-start gap-2.5 focus:outline-none focus:ring-1 focus:ring-[#00C8FF]"
                         >
                           <span className="text-[11px] font-mono text-[#00C8FF] mt-0.5">
                             {service.number}
@@ -104,6 +150,7 @@ export function Navbar() {
                         </span>
                         <Link
                           href="/services"
+                          onClick={() => setServicesDropdown(false)}
                           className="text-[11px] font-semibold text-[#00C8FF] hover:underline flex items-center gap-1"
                         >
                           View all services →
@@ -119,7 +166,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold transition-all duration-200 rounded-full ${
+                className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold transition-all duration-200 rounded-full focus:outline-none focus:ring-1 focus:ring-[#00C8FF] ${
                   isActive
                     ? "text-[#00F0FF] bg-gradient-to-r from-cyan-500/20 to-blue-500/15 border border-cyan-400/35 shadow-[0_0_15px_rgba(0,240,255,0.25)]"
                     : "text-slate-300 hover:text-white hover:bg-white/[0.05]"
@@ -145,8 +192,10 @@ export function Navbar() {
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="xl:hidden p-2 rounded-xl bg-white/[0.05] border border-white/10 text-white hover:text-[#00C8FF] transition-colors"
-          aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-drawer"
+          className="xl:hidden p-2 rounded-xl bg-white/[0.05] border border-white/10 text-white hover:text-[#00C8FF] focus:outline-none focus:ring-2 focus:ring-[#00C8FF] transition-colors"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -154,7 +203,14 @@ export function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden glass-panel border-b border-white/10 px-6 py-6 mt-3 max-h-[85vh] overflow-y-auto animate-in slide-in-from-top-4 duration-300">
+        <div
+          id="mobile-nav-drawer"
+          ref={mobileMenuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile Navigation"
+          className="xl:hidden glass-panel border-b border-white/10 px-6 py-6 mt-3 max-h-[85vh] overflow-y-auto animate-in slide-in-from-top-4 duration-300"
+        >
           <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
@@ -184,7 +240,9 @@ export function Navbar() {
               <div className="text-center">
                 <p className="text-xs text-[#94A3B8]">
                   Direct Founder Desk:{" "}
-                  <span className="text-white font-mono">hello@digshine.com</span>
+                  <a href={`mailto:hello@digshine.com`} className="text-white hover:text-[#00C8FF] transition-colors font-mono">
+                    hello@digshine.com
+                  </a>
                 </p>
               </div>
             </div>

@@ -44,7 +44,9 @@ export function FaqAccordion() {
           <div className="mt-8 max-w-md mx-auto relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
             <input
+              id="faq-search-input"
               type="text"
+              aria-label="Search frequently asked questions and answers"
               placeholder="Search answers (e.g., pricing, AI models, n8n, timeline)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -53,12 +55,19 @@ export function FaqAccordion() {
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+          <div
+            role="tablist"
+            aria-label="FAQ Categories"
+            className="flex flex-wrap items-center justify-center gap-2 mt-6"
+          >
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
+                role="tab"
+                aria-selected={selectedCategory === cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all focus:outline-none focus:ring-1 focus:ring-[#00C8FF] ${
                   selectedCategory === cat
                     ? "bg-[#00C8FF]/15 text-[#00C8FF] border border-[#00C8FF]/40 shadow-glow-blue"
                     : "bg-white/[0.02] text-[#94A3B8] border border-white/5 hover:text-white"
@@ -86,8 +95,12 @@ export function FaqAccordion() {
                   }`}
                 >
                   <button
+                    id={`faq-trigger-${idx}`}
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-panel-${idx}`}
                     onClick={() => toggleItem(idx)}
-                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4"
+                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 focus:outline-none focus:ring-1 focus:ring-[#00C8FF]"
                   >
                     <span className="text-sm sm:text-base font-bold text-white flex items-center gap-3">
                       <HelpCircle className="w-4 h-4 text-[#00C8FF] flex-shrink-0" />
@@ -101,7 +114,12 @@ export function FaqAccordion() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-[#94A3B8] leading-relaxed border-t border-white/5">
+                    <div
+                      id={`faq-panel-${idx}`}
+                      role="region"
+                      aria-labelledby={`faq-trigger-${idx}`}
+                      className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-[#94A3B8] leading-relaxed border-t border-white/5"
+                    >
                       {faq.a}
                     </div>
                   )}
