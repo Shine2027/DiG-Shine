@@ -35,9 +35,7 @@ Designed around the official **DiG Shine** emblem:
 - **Smooth Scrolling:** Studio Freight Lenis
 - **Icons:** Lucide React
 - **Celebration Effects:** Canvas Confetti
-- **Lead API:** `/api/contact` endpoint
-- **Lead storage:** PostgreSQL via Prisma ORM
-- **Lead management:** Password-protected `/admin/leads` dashboard
+- **Contact API:** `/api/contact` validates and emails inquiries directly
 
 ---
 
@@ -62,8 +60,7 @@ Designed around the official **DiG Shine** emblem:
 | `/not-found` | Futuristic quantum node 404 page | Static (SSG) |
 | `/sitemap.xml` | Dynamic SEO sitemap with priority weighting | Metadata API |
 | `/robots.txt` | Crawler instructions and sitemap links | Metadata API |
-| `/api/contact` | Validates and stores consultation leads, then emails the team | API Route |
-| `/admin/leads` | Password-protected searchable lead dashboard and CSV export | Dynamic |
+| `/api/contact` | Validates consultation inquiries and emails the team | API Route |
 
 ---
 
@@ -89,19 +86,9 @@ Designed around the official **DiG Shine** emblem:
    npm run start
    ```
 
-## 📇 Lead Management Setup
+## 📇 Contact Form Setup
 
-1. Copy `.env.example` to `.env.local` and configure `DATABASE_URL`, `ADMIN_PASSWORD` (at least 16 characters), and `ADMIN_SESSION_SECRET` (at least 32 random characters). Keep these values private and set them in the hosting provider's secret environment configuration.
-2. Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`). New lead alerts are sent to `hello@digshine.com`; if delivery is unavailable, the lead is still stored and marked as not notified in the admin dashboard.
-3. Apply the checked-in database migration and generate the Prisma client:
-   ```bash
-   npm run db:migrate
-   npm run db:generate
-   ```
-   For a new local database, `npx prisma migrate dev` can create/apply a development migration.
-4. Visit `/admin/leads` and sign in with `ADMIN_PASSWORD`. Admin API routes require a signed, HTTP-only, same-site session cookie.
-
-The admin password and signing secret must be set before using the dashboard. Use a managed PostgreSQL provider and an SMTP provider in production. Add provider-level rate limiting/WAF rules for public form and admin login traffic when deploying.
+Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`) in the local environment and hosting provider. Contact submissions are sent directly to `hello@digshine.com`; they are not stored by the website, so successful form delivery depends on the SMTP provider being configured and available.
 
 ---
 
@@ -110,8 +97,8 @@ The admin password and signing secret must be set before using the dashboard. Us
 This project is configured out-of-the-box for **1-click Vercel deployment**:
 1. Push your repository to GitHub (`main` branch).
 2. Import the project into the [Vercel Dashboard](https://vercel.com).
-3. In **Project Settings → Environment Variables**, set `DATABASE_URL` to the connection string for your managed PostgreSQL database. Add it to every environment where leads should be stored (Production, and Preview if needed).
-4. Framework Preset: **Next.js** (auto-detected). The build runs `prisma migrate deploy` before building the app, applying checked-in migrations to that database. A missing or unreachable database causes the deployment to fail instead of deploying a form that cannot save requests.
+3. Configure the SMTP environment variables above if you want the contact form to send inquiries.
+4. Framework Preset: **Next.js** (auto-detected). The build runs `next build` and does not require a database.
 5. Click **Deploy**.
 
 ---

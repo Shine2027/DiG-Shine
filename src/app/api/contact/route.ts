@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
@@ -35,7 +34,6 @@ function readOptionalString(value: unknown): string | null {
 }
 
 async function sendLeadNotification(lead: {
-  id: string;
   name: string;
   email: string;
   phone: string | null;
@@ -43,7 +41,6 @@ async function sendLeadNotification(lead: {
   services: string[];
   budget: string | null;
   message: string;
-  createdAt: Date;
 }) {
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT);
@@ -51,7 +48,7 @@ async function sendLeadNotification(lead: {
   const password = process.env.SMTP_PASSWORD;
   const from = process.env.SMTP_FROM;
 
-  if (!host || !Number.isInteger(port) || !user || !password || !from) {
+  if (!host || !Number.isInteger(port) || port < 1 || port > 65535 || !user || !password || !from) {
     throw new Error("SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, and SMTP_FROM must be configured.");
   }
 
@@ -71,8 +68,7 @@ async function sendLeadNotification(lead: {
     replyTo: lead.email,
     subject: `New DiG Shine lead: ${lead.name.replace(/[\r\n]/g, " ")}`,
     text: [
-      `Lead ID: ${lead.id}`,
-      `Submitted: ${lead.createdAt.toISOString()}`,
+      `Submitted: ${new Date().toISOString()}`,
       `Name: ${lead.name}`,
       `Email: ${lead.email}`,
       `Phone: ${lead.phone || "Not provided"}`,
@@ -159,47 +155,27 @@ export async function POST(request: Request) {
   }
 
   try {
-    const lead = await prisma.lead.create({
-      data: {
-        name,
-        email,
-        phone,
-        company,
-        services: Array.isArray(body.services) ? body.services as string[] : [],
-        budget,
-        message,
-      },
+    await sendLeadNotification({
+      name,
+      email,
+      phone,
+      company,
+      services: Array.isArray(body.services) ? body.services : [],
+      budget,
+      message,
     });
-
-    let notificationSent = false;
-    try {
-      await sendLeadNotification(lead);
-      await prisma.lead.update({
-        where: { id: lead.id },
-        data: { notificationSent: true },
-      });
-      notificationSent = true;
-    } catch (error) {
-      console.error("Lead notification delivery failed.", {
-        leadId: lead.id,
-        error: error instanceof Error ? error.message : "Unknown notification error",
-      });
-    }
 
     return NextResponse.json(
       {
         success: true,
-        notificationSent,
-        message: notificationSent
-          ? "Your consultation request has been received."
-          : "Your request has been saved. Our team will follow up; email notification delivery is temporarily unavailable.",
+        message: "Your consultation request has been sent to our team.",
       },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (error) {
-    console.error("Lead persistence failed.", error instanceof Error ? error.message : "Unknown database error");
+    console.error("Lead email delivery failed.", error instanceof Error ? error.message : "Unknown email error");
     return NextResponse.json(
-      { error: "We could not save your request. Please try again or email hello@digshine.com." },
+      { error: "We could not send your request. Please try again or email hello@digshine.com." },
       { status: 503 },
     );
   }
