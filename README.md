@@ -49,7 +49,6 @@ Designed around the official **DiG Shine** emblem:
 | `/services/[slug]` | Individual deep-dive service pages (deliverables, architecture, tech stack, FAQs) | SSG (Dynamic) |
 | `/case-studies` | Documented client transformations, ROI metrics, and tech stacks | Static (SSG) |
 | `/case-studies/[slug]` | Detailed case study breakdown (challenge, solution, results) | SSG (Dynamic) |
-| `/pricing` | Tier cards (Starter, Growth, Enterprise), monthly/annual switch, and interactive ROI estimator | Static (SSG) |
 | `/blog` | CMS-ready articles, GEO guides, and AI agent frameworks | Static (SSG) |
 | `/blog/[slug]` | Full-length article reader with author profiles and share links | SSG (Dynamic) |
 | `/contact` | High-converting consultation dossier booking with multi-select services and budget tiers | Static (SSG) |

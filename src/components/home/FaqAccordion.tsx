@@ -10,7 +10,7 @@ export function FaqAccordion() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const categories = ["All", "General", "Services", "Pricing & ROI", "Timeline", "SEO & AI"];
+  const categories = ["All", "General", "Services", "Timeline", "SEO & AI"];
 
   const filteredFaqs = FAQ_DATA.filter((faq) => {
     const matchesSearch =

@@ -32,19 +32,6 @@ export interface CaseStudy {
   featured: boolean;
 }
 
-export interface PricingPlan {
-  id: string;
-  name: string;
-  tierBadge?: string;
-  monthlyPrice: number;
-  annualPrice: number;
-  description: string;
-  recommended: boolean;
-  features: string[];
-  idealFor: string;
-  ctaText: string;
-}
-
 export interface BlogPost {
   id: string;
   slug: string;
@@ -625,68 +612,6 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
 ];
 
-export const PRICING_PLANS: PricingPlan[] = [
-  {
-    id: "starter",
-    name: "Starter Sprint",
-    tierBadge: "Rapid Deployment",
-    monthlyPrice: 2490,
-    annualPrice: 1990,
-    description: "Ideal for ambitious startups and businesses ready to implement intelligent automation or launch high-ROAS paid ads.",
-    recommended: false,
-    idealFor: "Startups & Emerging Businesses",
-    ctaText: "Start with Starter",
-    features: [
-      "1 Core Growth Channel (Paid Ads or SEO/GEO)",
-      "1 Custom AI Assistant or n8n Automation Workflow",
-      "Dedicated Slack / WhatsApp Communication Channel",
-      "Weekly Performance Reporting & Optimization",
-      "Standard Response Time (< 24 hours)",
-      "Complete Source Code & Workflow Ownership",
-    ],
-  },
-  {
-    id: "growth",
-    name: "Growth Engine",
-    tierBadge: "Most Popular / Recommended",
-    monthlyPrice: 4990,
-    annualPrice: 3990,
-    description: "Our flagship comprehensive package. Full-funnel digital marketing, multi-agent AI systems, and aggressive scaling.",
-    recommended: true,
-    idealFor: "Scaling Businesses ($1M–$10M Revenue)",
-    ctaText: "Accelerate Growth",
-    features: [
-      "Omnichannel Paid Ads (Google, Meta & LinkedIn)",
-      "Up to 3 Autonomous AI Agents & Custom RAG Knowledge Base",
-      "Full CRM & Operations Automation (Make / n8n / Zapier)",
-      "Generative Engine Optimization (GEO & AEO) for Search & AI",
-      "High-Converting Landing Pages & Creative Asset Production",
-      "Bi-Weekly Executive Strategy & Roadmap Sprints",
-      "Priority SLA Support (< 4 hours) & Dedicated Project Lead",
-    ],
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise Dominance",
-    tierBadge: "Full-Stack Partner",
-    monthlyPrice: 9990,
-    annualPrice: 7990,
-    description: "A complete dedicated growth, AI engineering, and creative department embedded seamlessly into your enterprise.",
-    recommended: false,
-    idealFor: "Enterprises, Funded SaaS & Market Leaders",
-    ctaText: "Talk to Leadership",
-    features: [
-      "Dedicated Full-Stack Growth Team (AI Engineers, Media Buyers, Designers)",
-      "Custom Private LLM Deployment & Self-Hosted Vector Infrastructure",
-      "Unlimited Automation Workflows & Continuous Pipeline Optimization",
-      "Full Brand Identity Evolution & High-Fidelity Design System",
-      "Executive Dashboard & Data Warehousing (BigQuery / Looker)",
-      "24/7 Guaranteed VIP Incident SLA (< 1 hour)",
-      "Direct Strategic Access to CEO Karan Verma & Co-Founder Manoj",
-    ],
-  },
-];
-
 export const TESTIMONIALS = [
   {
     id: "t-1",
@@ -751,11 +676,6 @@ export const FAQ_DATA = [
     category: "Services",
     q: "Can DiG Shine work with our existing tools and CRM?",
     a: "Absolutely. We specialize in non-disruptive integration. Whether your stack uses HubSpot, Salesforce, Notion, Google Workspace, Slack, or custom internal APIs, we build bi-directional automations that elevate what you already use.",
-  },
-  {
-    category: "Pricing & ROI",
-    q: "How does pricing and engagement work?",
-    a: "We offer transparent monthly sprints starting at $2,490/mo for focused projects up to $9,990/mo for full-stack enterprise partnerships. There are no lock-in hostage contracts; we earn your business each month through measurable pipeline results.",
   },
   {
     category: "Timeline",

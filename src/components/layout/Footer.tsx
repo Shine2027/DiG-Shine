@@ -36,13 +36,10 @@ export function Footer() {
                 Join forward-thinking companies scaling with AI agents, automated operations, and algorithmic performance marketing.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">
+            <div className="flex gap-4 lg:justify-end">
               <Link href="/contact" className="btn-primary !py-3.5 !px-8 text-center text-sm uppercase tracking-wider">
                 Book Free Consultation
                 <ArrowUpRight className="w-4 h-4 ml-1" />
-              </Link>
-              <Link href="/pricing" className="btn-secondary !py-3.5 !px-8 text-center text-sm uppercase tracking-wider">
-                View Pricing Plans
               </Link>
             </div>
           </div>

@@ -27,7 +27,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-base sm:text-lg font-bold text-white mb-3">2. Service Level Agreements (SLA)</h2>
             <p>
-              Depending on your selected partnership tier (Starter, Growth Engine, or Enterprise Dominance), DiG Shine provides dedicated communication channels with guaranteed response windows ranging from 24 hours down to 1 hour VIP emergency resolution.
+              Communication channels and response expectations are agreed upon for each project and documented in its scope.
             </p>
           </section>
 
