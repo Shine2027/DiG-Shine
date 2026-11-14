@@ -5,7 +5,6 @@ import { HeroCanvas } from "@/components/home/HeroCanvas";
 import { StatsCounter } from "@/components/home/StatsCounter";
 import { ProcessSection } from "@/components/home/ProcessSection";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
-import { ContactSection } from "@/components/home/ContactSection";
 import { SERVICES_DATA, INDUSTRIES_SERVED, AGENCY_INFO } from "@/data/cms";
 
 export default function HomePage() {
@@ -394,11 +393,6 @@ export default function HomePage() {
           FAQ ACCORDION WITH INSTANT SEARCH
       ========================================================================== */}
       <FaqAccordion />
-
-      {/* =========================================================================
-          CONSULTATION BOOKING & CONTACT SECTION
-      ========================================================================== */}
-      <ContactSection />
     </div>
   );
 }
