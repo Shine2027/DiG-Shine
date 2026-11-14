@@ -174,17 +174,6 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Right Action CTA */}
-        <div className="hidden sm:flex items-center gap-3">
-          <Link
-            href="/contact"
-            className="btn-primary !py-2.5 !px-5 !text-xs uppercase tracking-wider group"
-          >
-            <span>Book a Free Call</span>
-            <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </div>
-
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -225,14 +214,6 @@ export function Navbar() {
             ))}
 
             <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="btn-primary w-full text-center justify-center !py-3 !text-sm"
-              >
-                <span>Book a Free Call</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
               <div className="text-center">
                 <p className="text-xs text-[#94A3B8]">
                   Direct Founder Desk:{" "}

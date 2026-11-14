@@ -133,19 +133,6 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="glass-card rounded-3xl p-10 text-center border border-[#00C8FF]/30 shadow-glow-card">
-          <h3 className="text-2xl font-bold text-white mb-2">
-            Want Similar Results for Your Business?
-          </h3>
-          <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto mb-6">
-            Let&apos;s build an autonomous growth system tailored to your specific metrics and tech stack.
-          </p>
-          <Link href="/contact" className="btn-primary !py-3.5 !px-8 text-xs uppercase tracking-wider">
-            Book Free Consultation
-            <ArrowUpRight className="w-4 h-4 ml-1" />
-          </Link>
-        </div>
       </div>
     </div>
   );

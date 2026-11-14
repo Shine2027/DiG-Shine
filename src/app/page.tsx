@@ -130,14 +130,6 @@ export default function HomePage() {
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
                 <Link
-                  href="/contact"
-                  className="btn-primary !py-4 !px-8 text-xs sm:text-sm uppercase tracking-wider font-bold shadow-[0_0_25px_rgba(0,240,255,0.5)] flex items-center justify-center gap-2 group w-full sm:w-auto"
-                >
-                  <span>Book Free Consultation</span>
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-
-                <Link
                   href="/services"
                   className="btn-secondary !py-4 !px-8 text-xs sm:text-sm uppercase tracking-wider font-semibold flex items-center justify-center gap-2 group w-full sm:w-auto"
                 >

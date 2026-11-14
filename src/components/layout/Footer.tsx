@@ -23,28 +23,6 @@ export function Footer() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-36 bg-gradient-to-b from-[#00F0FF]/10 via-[#007BFF]/05 to-transparent blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
-        {/* Top Section: CTA Banner */}
-        <div className="glass-panel rounded-3xl p-8 sm:p-12 border border-[#00C8FF]/25 shadow-glow-blue mb-16 relative overflow-hidden">
-          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-[#00C8FF]/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <span className="badge-glow mb-4">READY TO SCALE?</span>
-              <h3 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
-                Let&apos;s build an autonomous growth system for your business.
-              </h3>
-              <p className="text-sm sm:text-base text-[#94A3B8] mt-3 max-w-lg">
-                Join forward-thinking companies scaling with AI agents, automated operations, and algorithmic performance marketing.
-              </p>
-            </div>
-            <div className="flex gap-4 lg:justify-end">
-              <Link href="/contact" className="btn-primary !py-3.5 !px-8 text-center text-sm uppercase tracking-wider">
-                Book Free Consultation
-                <ArrowUpRight className="w-4 h-4 ml-1" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
         {/* Middle Section: Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-16 border-b border-white/10">
           {/* Column 1: Brand Info */}
