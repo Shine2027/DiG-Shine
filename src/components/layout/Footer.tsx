@@ -38,7 +38,7 @@ export function Footer() {
                 Stewarded by <strong className="text-white">Karan Verma</strong> (CEO & Founder) &amp; <strong className="text-white">Manoj</strong> (Co-Founder).
               </p>
               <p className="text-[11px] font-mono text-[#00C8FF] mt-1">
-                hello@digshine.com · DLF CyberCity, Tech Hub
+                hellodigshine@gmail.com · +91 8595366845, +91 70828 28940, 
               </p>
             </div>
 
