@@ -60,6 +60,7 @@ Designed around the official **DiG Shine** emblem:
 | `/sitemap.xml` | Dynamic SEO sitemap with priority weighting | Metadata API |
 | `/robots.txt` | Crawler instructions and sitemap links | Metadata API |
 | `/api/contact` | Validates consultation inquiries and emails the team | API Route |
+| `/api/leads` | Validates chatbot lead details and appends them to Google Sheets | API Route |
 
 ---
 
@@ -88,6 +89,18 @@ Designed around the official **DiG Shine** emblem:
 ## 📇 Contact Form Setup
 
 Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`) in the local environment and hosting provider. Contact submissions are sent directly to `hello@digshine.com`; they are not stored by the website, so successful form delivery depends on the SMTP provider being configured and available.
+
+## 💬 Chatbot & Google Sheets Setup
+
+The site-wide guided chatbot collects only a visitor's name, phone number, email, requirement, and server-generated submission date. It does not store the chat messages. To connect it to a new Google Sheet:
+
+1. Create a Google Sheet and name its first tab `Leads`. Add these column headers in row 1, in order: `Name`, `Number`, `Email`, `Requirement`, `Date`.
+2. In Google Cloud Console, create a project, enable the **Google Sheets API**, and create a service account. Create a JSON key for the service account and keep it private.
+3. Share the Sheet with the service account's `client_email` as an Editor. It only needs access to this Sheet; do not grant it broad project roles.
+4. Copy `.env.example` to `.env.local`. Set `GOOGLE_SHEETS_SPREADSHEET_ID` from the Sheet URL, `GOOGLE_SERVICE_ACCOUNT_EMAIL` to the service account's `client_email`, and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` to its `private_key`. Keep these values server-side; never add a `NEXT_PUBLIC_` prefix or commit the key.
+5. Add the same variables to your hosting provider and restart/redeploy the site.
+
+The API validates all submitted fields, requires contact consent, and writes the date on the server. It uses Google Sheets' `RAW` input mode and stores only those five columns; the service account key is never sent to the browser. Until configured, the chatbot reports that lead capture is unavailable and directs visitors to the Contact page.
 
 ---
 

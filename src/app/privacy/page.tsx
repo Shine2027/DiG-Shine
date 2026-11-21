@@ -34,7 +34,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-base sm:text-lg font-bold text-white mb-3">3. Information Collection &amp; Use</h2>
             <p>
-              We collect information provided directly through consultation requests (such as your name, corporate email, phone number, and growth goals). We use this information solely to evaluate project scope, execute discovery sessions, and administer agreed-upon client sprints.
+              We collect information provided directly through consultation requests or the website chatbot, including your name, email, phone number, and stated requirements. Chatbot leads are sent to a Google Sheet accessible to our team; we store the submitted details and submission date, not the chat transcript. We use this information to respond to your inquiry and evaluate project scope.
             </p>
           </section>
 

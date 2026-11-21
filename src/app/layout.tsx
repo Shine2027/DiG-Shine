@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CursorGlow } from "@/components/effects/CursorGlow";
 import { SmoothScroll } from "@/components/effects/SmoothScroll";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { LeadChatbot } from "@/components/layout/LeadChatbot";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -106,6 +107,7 @@ export default function RootLayout({
           <main className="flex-1 pt-20">{children}</main>
           <Footer />
         </SmoothScroll>
+        <LeadChatbot />
       </body>
     </html>
   );
