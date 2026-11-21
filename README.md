@@ -89,6 +89,17 @@ Designed around the official **DiG Shine** emblem:
 
 Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`) in the local environment and hosting provider. Contact submissions are sent directly to `hello@digshine.com`; they are not stored by the website, so successful form delivery depends on the SMTP provider being configured and available.
 
+## ⭐ Customer Feedback Setup
+
+The homepage feedback section uses Firebase Authentication (anonymous sign-in) and Cloud Firestore for live review updates. To enable it:
+
+1. Create a Firebase project and register a web app. Copy `.env.example` to `.env.local` and fill in the Firebase web app values.
+2. Enable **Anonymous** in Firebase Authentication → Sign-in method.
+3. Create a Cloud Firestore database and deploy the repository's `firestore.rules` using the Firebase CLI or Firebase Console.
+4. Configure Firebase App Check with reCAPTCHA v3, add its site key as `NEXT_PUBLIC_FIREBASE_APPCHECK_SITE_KEY`, then enforce App Check for Firestore in the Firebase Console. The client also uses a hidden honeypot and a short per-browser submission cooldown; App Check enforcement is required for server-verified abuse protection.
+
+Firestore permits public review reads and authenticated, validated review creation only. Reviews cannot be edited or deleted from the public client. Do not deploy permissive test-mode rules.
+
 ---
 
 ## ☁️ Deployment (Vercel)
