@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const contacts = [
-    { name: "Karan Verma", phone: "+91 92891 77164", href: "tel:+919289177164" },
+    { name: "Karan Verma", phone: "+91 8595366845", href: "tel:+918595366845" },
     { name: "Manoj", phone: "+91 70828 28940", href: "tel:+917082828940" },
-    { name: "Shreyansh", phone: "+91 8595366845", href: "tel:+918595366845" },
+    { name: "Shreyansh", phone: "+91 92891 77164", href: "tel:+919289177164" },
   ];
 
   return (
