@@ -106,5 +106,6 @@ This project is configured out-of-the-box for **1-click Vercel deployment**:
 
 - **CEO & Founder:** Karan Verma
 - **Co-Founder:** Manoj
-- **Inquiries:** `hello@digshine.com`
+- **Inquiries:** `hellodigshine@gmail.com`
+- **Contact:** '+91 8595366845, +91 7082828940'
 - **Copyright:** © 2026 DiG Shine. All rights reserved.

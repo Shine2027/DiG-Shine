@@ -156,7 +156,7 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: 3D Three.js Interactive Floating Core */}
-            <div className="lg:col-span-5 relative w-full flex items-center justify-center">
+            <div className="hidden lg:col-span-5 lg:relative lg:w-full lg:flex lg:items-center lg:justify-center">
               <HeroCanvas />
             </div>
           </div>
