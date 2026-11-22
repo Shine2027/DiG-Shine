@@ -85,26 +85,12 @@ export async function POST(request: Request) {
       cache: "no-store",
       signal: AbortSignal.timeout(10_000),
     });
-    const responseText = await appsScriptResponse.text();
+    const responseHostname = new URL(appsScriptResponse.url).hostname;
+    const isAppsScriptResponse =
+      responseHostname === "script.google.com" || responseHostname.endsWith(".googleusercontent.com");
 
-    let scriptConfirmedSave = /^(success|ok|saved|added)\b/i.test(responseText.trim());
-    try {
-      const scriptResult: unknown = JSON.parse(responseText);
-      if (typeof scriptResult === "string") {
-        scriptConfirmedSave = /^(success|ok|saved|added)\b/i.test(scriptResult.trim());
-      } else if (isRecord(scriptResult)) {
-        scriptConfirmedSave =
-          scriptResult.success === true ||
-          ["success", "ok", "saved", "added"].includes(
-            String(scriptResult.status ?? scriptResult.result ?? "").toLowerCase(),
-          );
-      }
-    } catch {
-      // Plain-text success responses are supported for simple Apps Script deployments.
-    }
-
-    if (!appsScriptResponse.ok || !scriptConfirmedSave) {
-      console.error("Google Apps Script did not confirm saving a lead.", appsScriptResponse.status);
+    if (!appsScriptResponse.ok || !isAppsScriptResponse) {
+      console.error("Google Apps Script did not accept a lead.", appsScriptResponse.status, responseHostname);
       return NextResponse.json(
         { error: "We couldn’t save your details right now. Please try again later." },
         { status: 502 },

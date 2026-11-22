@@ -98,7 +98,7 @@ The deployed Apps Script must:
 
 1. Be available to the public web app endpoint (for example, deploy it to execute as the script owner and allow access to anyone).
 2. Accept an `application/x-www-form-urlencoded` `POST` with the fields `spreadsheetId`, `name`, `number`, `email`, `requirement`, and `date`, then append the lead to the intended sheet.
-3. Return a success response (`{"success":true}` as JSON, or plain text beginning with `success`, `ok`, `saved`, or `added`) only after the row is saved.
+3. Return a successful HTTP response only after the row is saved. The API accepts a successful response from the Apps Script web app and does not depend on a particular response body.
 
 The API validates all submitted fields and requires contact consent before forwarding the lead. It does not send the chat transcript or consent value to the spreadsheet. If you replace the Apps Script deployment or spreadsheet, update both constants in `src/app/api/leads/route.ts` and redeploy the website.
 
