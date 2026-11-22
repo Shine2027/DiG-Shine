@@ -97,8 +97,8 @@ The site-wide guided chatbot sends a visitor's name, phone number, email, requir
 The deployed Apps Script must:
 
 1. Be available to the public web app endpoint (for example, deploy it to execute as the script owner and allow access to anyone).
-2. Accept an `application/x-www-form-urlencoded` `POST` with the fields `spreadsheetId`, `name`, `number`, `email`, `requirement`, and `date`, then append the lead to the intended sheet.
-3. Return a successful HTTP response only after the row is saved. The API accepts a successful response from the Apps Script web app and does not depend on a particular response body.
+2. Accept an `application/json` `POST` containing `spreadsheetId`, `name`, `number`, `email`, `requirement`, and `date`, then append the lead to the intended sheet. If the script looks up a tab by name, the name must match exactly, including capitalization.
+3. Return `{"success":true}` only after the row is saved. Return `{"success":false,"message":"..."}` if saving fails.
 
 The API validates all submitted fields and requires contact consent before forwarding the lead. It does not send the chat transcript or consent value to the spreadsheet. If you replace the Apps Script deployment or spreadsheet, update both constants in `src/app/api/leads/route.ts` and redeploy the website.
 

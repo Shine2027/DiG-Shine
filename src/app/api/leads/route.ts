@@ -72,9 +72,9 @@ export async function POST(request: Request) {
     const appsScriptResponse = await fetch(GOOGLE_APPS_SCRIPT_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Content-Type": "application/json;charset=UTF-8",
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         spreadsheetId: GOOGLE_SHEETS_SPREADSHEET_ID,
         name,
         number,
@@ -85,12 +85,28 @@ export async function POST(request: Request) {
       cache: "no-store",
       signal: AbortSignal.timeout(10_000),
     });
+    const responseText = await appsScriptResponse.text();
     const responseHostname = new URL(appsScriptResponse.url).hostname;
     const isAppsScriptResponse =
       responseHostname === "script.google.com" || responseHostname.endsWith(".googleusercontent.com");
+    let scriptResult: unknown = null;
+    try {
+      scriptResult = JSON.parse(responseText);
+    } catch {
+      // The Apps Script endpoint must return JSON to confirm the row was saved.
+    }
+    const scriptConfirmedSave = isRecord(scriptResult) && scriptResult.success === true;
 
-    if (!appsScriptResponse.ok || !isAppsScriptResponse) {
-      console.error("Google Apps Script did not accept a lead.", appsScriptResponse.status, responseHostname);
+    if (!appsScriptResponse.ok || !isAppsScriptResponse || !scriptConfirmedSave) {
+      const scriptError =
+        isRecord(scriptResult) && typeof scriptResult.message === "string"
+          ? scriptResult.message.slice(0, 200)
+          : "Apps Script did not confirm the save.";
+      console.error("Google Apps Script did not accept a lead.", {
+        status: appsScriptResponse.status,
+        responseHostname,
+        message: scriptError,
+      });
       return NextResponse.json(
         { error: "We couldn’t save your details right now. Please try again later." },
         { status: 502 },
