@@ -6,7 +6,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[+\d().\-\s]{7,30}$/;
 const LEAD_FIELDS = ["name", "number", "email", "requirement", "website", "consent"];
 const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbw6G7tnliuP_LgIe5-LlUDZlYk4apVW_fztzS38tkMsjNHAiDjowWiBR82pvoxkkyg/exec";
+  "https://script.google.com/macros/s/AKfycbzqyvuV3xs_N71YDuTV7VqCQMk3zUYxH1JcJHb0PcVo_QJDD1b24QA3oWwJhbrQWwgD/exec";
 const GOOGLE_SHEETS_SPREADSHEET_ID = "1yBE1_-CC1G8MRi-A3LIk7iuVhPMXyH6Z1P5hISQDG_g";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
