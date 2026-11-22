@@ -92,15 +92,15 @@ Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWOR
 
 ## 💬 Chatbot & Google Sheets Setup
 
-The site-wide guided chatbot collects only a visitor's name, phone number, email, requirement, and server-generated submission date. It does not store the chat messages. To connect it to a new Google Sheet:
+The site-wide guided chatbot sends a visitor's name, phone number, email, requirement, and server-generated submission date to the Apps Script web app configured in `src/app/api/leads/route.ts`. The spreadsheet ID and Apps Script deployment URL have already been added there. No Google service-account credentials or environment variables are required.
 
-1. Create a Google Sheet and name its first tab `Leads`. Add these column headers in row 1, in order: `Name`, `Number`, `Email`, `Requirement`, `Date`.
-2. In Google Cloud Console, create a project, enable the **Google Sheets API**, and create a service account. Create a JSON key for the service account and keep it private.
-3. Share the Sheet with the service account's `client_email` as an Editor. It only needs access to this Sheet; do not grant it broad project roles.
-4. Copy `.env.example` to `.env.local`. Set `GOOGLE_SHEETS_SPREADSHEET_ID` from the Sheet URL, `GOOGLE_SERVICE_ACCOUNT_EMAIL` to the service account's `client_email`, and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` to its `private_key`. Keep these values server-side; never add a `NEXT_PUBLIC_` prefix or commit the key.
-5. Add the same variables to your hosting provider and restart/redeploy the site.
+The deployed Apps Script must:
 
-The API validates all submitted fields, requires contact consent, and writes the date on the server. It uses Google Sheets' `RAW` input mode and stores only those five columns; the service account key is never sent to the browser. Until configured, the chatbot reports that lead capture is unavailable and directs visitors to the Contact page.
+1. Be available to the public web app endpoint (for example, deploy it to execute as the script owner and allow access to anyone).
+2. Accept an `application/x-www-form-urlencoded` `POST` with the fields `spreadsheetId`, `name`, `number`, `email`, `requirement`, and `date`, then append the lead to the intended sheet.
+3. Return a success response (`{"success":true}` as JSON, or plain text beginning with `success`, `ok`, `saved`, or `added`) only after the row is saved.
+
+The API validates all submitted fields and requires contact consent before forwarding the lead. It does not send the chat transcript or consent value to the spreadsheet. If you replace the Apps Script deployment or spreadsheet, update both constants in `src/app/api/leads/route.ts` and redeploy the website.
 
 ---
 

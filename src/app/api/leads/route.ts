@@ -1,4 +1,3 @@
-import { createSign } from "node:crypto";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -6,8 +5,9 @@ export const runtime = "nodejs";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[+\d().\-\s]{7,30}$/;
 const LEAD_FIELDS = ["name", "number", "email", "requirement", "website", "consent"];
-const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
-const GOOGLE_SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
+const GOOGLE_APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbw6G7tnliuP_LgIe5-LlUDZlYk4apVW_fztzS38tkMsjNHAiDjowWiBR82pvoxkkyg/exec";
+const GOOGLE_SHEETS_SPREADSHEET_ID = "1yBE1_-CC1G8MRi-A3LIk7iuVhPMXyH6Z1P5hISQDG_g";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -15,51 +15,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function readString(value: unknown) {
   return typeof value === "string" ? value.trim() : null;
-}
-
-function base64Url(value: string) {
-  return Buffer.from(value).toString("base64url");
-}
-
-function createServiceAccountAssertion(email: string, privateKey: string) {
-  const now = Math.floor(Date.now() / 1000);
-  const encodedHeader = base64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
-  const encodedClaims = base64Url(
-    JSON.stringify({
-      iss: email,
-      scope: GOOGLE_SHEETS_SCOPE,
-      aud: GOOGLE_TOKEN_URL,
-      iat: now,
-      exp: now + 3600,
-    }),
-  );
-  const unsignedAssertion = `${encodedHeader}.${encodedClaims}`;
-  const signer = createSign("RSA-SHA256");
-  signer.update(unsignedAssertion);
-  signer.end();
-  return `${unsignedAssertion}.${signer.sign(privateKey.replace(/\\n/g, "\n")).toString("base64url")}`;
-}
-
-async function getGoogleAccessToken(email: string, privateKey: string) {
-  const assertion = createServiceAccountAssertion(email, privateKey);
-  const response = await fetch(GOOGLE_TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion,
-    }),
-    cache: "no-store",
-    signal: AbortSignal.timeout(10_000),
-  });
-
-  const result: unknown = await response.json().catch(() => null);
-  if (!response.ok || !isRecord(result) || typeof result.access_token !== "string") {
-    console.error("Google service-account authentication failed.", response.status);
-    throw new Error("Could not authenticate with Google Sheets.");
-  }
-
-  return result.access_token;
 }
 
 export async function POST(request: Request) {
@@ -113,47 +68,43 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Tell us a little more about your requirement (10–2,000 characters)." }, { status: 400 });
   }
 
-  const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
-  const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
-
-  if (!spreadsheetId || !serviceAccountEmail || !privateKey) {
-    return NextResponse.json(
-      { error: "Lead capture is not configured yet. Please contact us through the Contact page." },
-      { status: 503 },
-    );
-  }
-  if (!/^[\w-]+$/.test(spreadsheetId) || !EMAIL_REGEX.test(serviceAccountEmail)) {
-    console.error("Google Sheets environment configuration is invalid.");
-    return NextResponse.json(
-      { error: "Lead capture is temporarily unavailable. Please use the Contact page." },
-      { status: 503 },
-    );
-  }
-
   try {
-    const accessToken = await getGoogleAccessToken(serviceAccountEmail, privateKey);
-    const spreadsheetUrl = new URL(
-      `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values/${encodeURIComponent("Leads!A:E")}:append`,
-    );
-    spreadsheetUrl.searchParams.set("valueInputOption", "RAW");
-    spreadsheetUrl.searchParams.set("insertDataOption", "INSERT_ROWS");
-
-    const sheetResponse = await fetch(spreadsheetUrl, {
+    const appsScriptResponse = await fetch(GOOGLE_APPS_SCRIPT_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
-      body: JSON.stringify({
-        values: [[name, number, email, requirement, new Date().toISOString()]],
+      body: new URLSearchParams({
+        spreadsheetId: GOOGLE_SHEETS_SPREADSHEET_ID,
+        name,
+        number,
+        email,
+        requirement,
+        date: new Date().toISOString(),
       }),
       cache: "no-store",
       signal: AbortSignal.timeout(10_000),
     });
+    const responseText = await appsScriptResponse.text();
 
-    if (!sheetResponse.ok) {
-      console.error("Google Sheets rejected a lead row.", sheetResponse.status);
+    let scriptConfirmedSave = /^(success|ok|saved|added)\b/i.test(responseText.trim());
+    try {
+      const scriptResult: unknown = JSON.parse(responseText);
+      if (typeof scriptResult === "string") {
+        scriptConfirmedSave = /^(success|ok|saved|added)\b/i.test(scriptResult.trim());
+      } else if (isRecord(scriptResult)) {
+        scriptConfirmedSave =
+          scriptResult.success === true ||
+          ["success", "ok", "saved", "added"].includes(
+            String(scriptResult.status ?? scriptResult.result ?? "").toLowerCase(),
+          );
+      }
+    } catch {
+      // Plain-text success responses are supported for simple Apps Script deployments.
+    }
+
+    if (!appsScriptResponse.ok || !scriptConfirmedSave) {
+      console.error("Google Apps Script did not confirm saving a lead.", appsScriptResponse.status);
       return NextResponse.json(
         { error: "We couldn’t save your details right now. Please try again later." },
         { status: 502 },
@@ -162,7 +113,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
-    console.error("Lead storage failed.", error instanceof Error ? error.message : "Unknown Google Sheets error");
+    console.error("Lead storage failed.", error instanceof Error ? error.message : "Unknown Apps Script error");
     return NextResponse.json(
       { error: "We couldn’t save your details right now. Please try again later." },
       { status: 503 },
