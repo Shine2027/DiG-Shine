@@ -1,11 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import { ArrowUpRight, ArrowRight, Sparkles, CheckCircle2, Shield, Zap, TrendingUp, Layers, Cpu, Globe, Workflow, BarChart3, Target, Search } from "lucide-react";
 import { HeroCanvas } from "@/components/home/HeroCanvas";
 import { StatsCounter } from "@/components/home/StatsCounter";
 import { ProcessSection } from "@/components/home/ProcessSection";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { SERVICES_DATA, INDUSTRIES_SERVED, AGENCY_INFO } from "@/data/cms";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function HomePage() {
   const serviceIcons = [Globe, Cpu, Workflow, Sparkles, TrendingUp, BarChart3, Target, Search];

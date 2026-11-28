@@ -4,6 +4,7 @@ import { Mail, Phone, UserRound } from "lucide-react";
 export const metadata: Metadata = {
   title: "Contact | DiG Shine",
   description: "Get in touch with DiG Shine.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

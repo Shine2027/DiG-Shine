@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service | DiG Shine Agency",
   description: "Terms and conditions governing sprint engagements, SLA deliverables, and agency partnership with DiG Shine.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

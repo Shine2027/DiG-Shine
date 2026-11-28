@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Insights & Strategy | AI, GEO & Revenue Engineering Dispatch",
   description:
     "Explore cutting-edge frameworks on Generative Engine Optimization (GEO), autonomous AI agents with n8n, and $50k+ agency design architecture.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {

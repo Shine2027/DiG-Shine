@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   return {
     title: `${service.title} | DiG Shine Agency`,
     description: service.shortDesc,
+    alternates: { canonical: `/services/${slug}` },
   };
 }
 
@@ -33,8 +34,75 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `https://digshine.in/services/${service.slug}#service`,
+    name: service.title,
+    description: service.shortDesc,
+    url: `https://digshine.in/services/${service.slug}`,
+    provider: {
+      "@id": "https://digshine.in/#organization",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://digshine.in",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Services",
+        item: "https://digshine.in/services",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: service.title,
+        item: `https://digshine.in/services/${service.slug}`,
+      },
+    ],
+  };
+
+  const serviceFaqSchema = service.faqs.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `https://digshine.in/services/${service.slug}#faq`,
+        mainEntity: service.faqs.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.a,
+          },
+        })),
+      }
+    : null;
+
   return (
     <div className="py-16 sm:py-24 bg-[#050505] relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {serviceFaqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceFaqSchema) }}
+        />
+      )}
       {/* Background ambient light */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#00C8FF]/10 rounded-full blur-[140px] pointer-events-none" />
 

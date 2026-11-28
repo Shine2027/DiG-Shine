@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: `${post.title} | DiG Shine Insights`,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${slug}` },
   };
 }
 
@@ -33,8 +34,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://digshine.in" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://digshine.in/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: `https://digshine.in/blog/${post.slug}` },
+    ],
+  };
+
   return (
     <div className="py-16 sm:py-24 bg-[#050505] relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="max-w-4xl mx-auto px-5 sm:px-8 relative z-10">
         {/* Back Link */}
         <Link

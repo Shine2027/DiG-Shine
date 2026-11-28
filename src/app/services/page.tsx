@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Services & Capabilities | Autonomous AI & Performance Marketing",
   description:
     "Explore DiG Shine's 8 core capabilities: AI Services, Business Automation, Performance Marketing, SEO/GEO, Brand Growth, Paid Advertising, and Analytics.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {

@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { SERVICES_DATA, CASE_STUDIES, BLOG_POSTS } from "@/data/cms";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://digshine.com";
+  const baseUrl = "https://digshine.in";
 
   // Static routes
   const staticRoutes = [

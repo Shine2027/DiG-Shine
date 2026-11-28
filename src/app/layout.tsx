@@ -27,7 +27,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://digshine.com"),
+  metadataBase: new URL("https://digshine.in"),
+  alternates: {
+    canonical: "/",
+  },
   title: {
     default: "DiG Shine — Scale Your Business with AI, Automation & Performance Marketing",
     template: "%s | DiG Shine Agency",
@@ -45,7 +48,7 @@ export const metadata: Metadata = {
     "DiG Shine",
     "Enterprise Growth Systems",
   ],
-  authors: [{ name: "Karan Verma", url: "https://digshine.com" }, { name: "Manoj" }],
+  authors: [{ name: "Karan Verma", url: "https://digshine.in" }, { name: "Manoj" }],
   creator: "DiG Shine",
   icons: {
     icon: "/favicon.svg",
@@ -55,7 +58,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://digshine.com",
+    url: "https://digshine.in",
     title: "DiG Shine — Scale Your Business with AI, Automation & Performance Marketing",
     description:
       "Automate • Innovate • Elevate. World-class AI solutions, autonomous workflows, and performance marketing engineered for exponential scale.",

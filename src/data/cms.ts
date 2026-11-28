@@ -63,7 +63,7 @@ export const AGENCY_INFO = {
   name: "DiG Shine",
   tagline: "Automate • Innovate • Elevate",
   est: "2026",
-  email: "hello@digshine.com",
+  email: "hello@digshine.in",
   phone: "+91-9876543210",
   location: "DLF CyberCity, Gurugram / Tech Hub India & Global",
   founders: {

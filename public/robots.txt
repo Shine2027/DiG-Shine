@@ -1,6 +1,0 @@
-# DiG Shine - Production Robots Configuration
-User-agent: *
-Allow: /
-Disallow: /api/
-
-Sitemap: https://digshine.com/sitemap.xml

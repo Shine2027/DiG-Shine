@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "About Us | Leadership & Philosophy",
   description:
     "Meet Karan Verma (CEO & Founder) and Manoj (Co-Founder), the architects behind DiG Shine. Learn how we engineer autonomous growth systems.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
@@ -102,7 +103,7 @@ export default function AboutPage() {
               </p>
               <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#94A3B8]">
                 <span>Specialization: Generative AI &amp; Paid Scaling</span>
-                <span className="text-[#00C8FF] font-mono">hello@digshine.com</span>
+                <span className="text-[#00C8FF] font-mono">hello@digshine.in</span>
               </div>
             </div>
 
@@ -131,7 +132,7 @@ export default function AboutPage() {
               </p>
               <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#94A3B8]">
                 <span>Specialization: Enterprise Workflows &amp; CRM</span>
-                <span className="text-[#10B981] font-mono">hello@digshine.com</span>
+                <span className="text-[#10B981] font-mono">hello@digshine.in</span>
               </div>
             </div>
           </div>

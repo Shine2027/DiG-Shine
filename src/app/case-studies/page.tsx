@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Case Studies & Work | Measurable Client Transformations",
   description:
     "Explore how DiG Shine scaled client revenues by 340%, automated operations with n8n, and achieved 4.8x blended ROAS through AI and performance marketing.",
+  alternates: { canonical: "/case-studies" },
 };
 
 export default function CaseStudiesPage() {

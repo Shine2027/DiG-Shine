@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy | DiG Shine Agency",
   description: "DiG Shine privacy policy detailing enterprise data handling, AI zero-retention compliance, and client confidential information safeguarding.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {
@@ -48,7 +49,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-base sm:text-lg font-bold text-white mb-3">5. Inquiries &amp; Data Rights</h2>
             <p>
-              To request data removal or discuss mutual Non-Disclosure Agreements (NDAs), reach our leadership desk directly at <span className="text-[#00C8FF] font-mono">hello@digshine.com</span>.
+              To request data removal or discuss mutual Non-Disclosure Agreements (NDAs), reach our leadership desk directly at <span className="text-[#00C8FF] font-mono">hello@digshine.in</span>.
             </p>
           </section>
         </div>
