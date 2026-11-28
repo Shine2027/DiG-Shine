@@ -164,7 +164,8 @@ export function Footer() {
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/sitemap.xml" className="hover:text-white transition-colors">Sitemap</Link>
+            <Link href="/sitemap" className="hover:text-white transition-colors">HTML Sitemap</Link>
+            <Link href="/sitemap.xml" className="hover:text-white transition-colors">XML Sitemap</Link>
             <span className="flex items-center gap-1 text-[#10B981]">
               <ShieldCheck className="w-3.5 h-3.5" /> Enterprise Grade
             </span>
