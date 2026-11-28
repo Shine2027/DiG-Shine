@@ -64,7 +64,7 @@ async function sendLeadNotification(lead: {
 
   await transporter.sendMail({
     from,
-    to: "hello@digshine.in",
+    to: "hellodigshine@gmail.com",
     replyTo: lead.email,
     subject: `New DiG Shine lead: ${lead.name.replace(/[\r\n]/g, " ")}`,
     text: [
@@ -175,7 +175,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Lead email delivery failed.", error instanceof Error ? error.message : "Unknown email error");
     return NextResponse.json(
-      { error: "We could not send your request. Please try again or email hello@digshine.in." },
+      { error: "We could not send your request. Please try again or email hellodigshine@gmail.com." },
       { status: 503 },
     );
   }

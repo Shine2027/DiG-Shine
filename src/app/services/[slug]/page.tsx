@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { SERVICES_DATA } from "@/data/cms";
 import { ArrowUpRight, ArrowLeft, Check, Sparkles, Shield, Cpu, HelpCircle } from "lucide-react";
+import { openGraphForPage } from "@/lib/metadata";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -17,11 +18,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
   const service = SERVICES_DATA.find((s) => s.slug === slug);
-  if (!service) return { title: "Service Not Found" };
+  if (!service) {
+    return {
+      title: "Service Not Found",
+      openGraph: openGraphForPage(`/services/${slug}`, "Service Not Found", "Service not found on DiG Shine."),
+    };
+  }
 
   return {
-    title: `${service.title} | DiG Shine Agency`,
+    title: service.title,
     description: service.shortDesc,
+    openGraph: openGraphForPage(`/services/${slug}`, service.title, service.shortDesc),
     alternates: { canonical: `/services/${slug}` },
   };
 }
@@ -131,16 +138,18 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             </p>
 
             {/* Quick Metrics */}
-            <div className="flex flex-wrap items-center gap-6 mt-8 p-6 rounded-2xl glass-panel border border-white/10">
-              {service.metrics.map((m) => (
-                <div key={m.label} className="min-w-[120px]">
-                  <div className="text-2xl sm:text-3xl font-display font-bold text-white">
-                    {m.value}
+            {service.metrics.length > 0 && (
+              <div className="flex flex-wrap items-center gap-6 mt-8 p-6 rounded-2xl glass-panel border border-white/10">
+                {service.metrics.map((m) => (
+                  <div key={m.label} className="min-w-[120px]">
+                    <div className="text-2xl sm:text-3xl font-display font-bold text-white">
+                      {m.value}
+                    </div>
+                    <p className="text-xs text-[#10B981] font-mono mt-0.5">{m.label}</p>
                   </div>
-                  <p className="text-xs text-[#10B981] font-mono mt-0.5">{m.label}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Quick CTA Box */}
@@ -238,6 +247,38 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               ))}
             </div>
           </div>
+        )}
+
+        {service.slug === "seo-aeo-geo" && (
+          <nav
+            aria-label="Related GEO resources"
+            className="max-w-3xl mx-auto border-t border-white/10 pt-8 text-sm text-[#94A3B8]"
+          >
+            <h2 className="text-lg font-bold text-white mb-3">Related GEO resources</h2>
+            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              <li>
+                <Link
+                  href="/blog/generative-engine-optimization-guide-2026"
+                  className="text-[#00C8FF] hover:underline"
+                >
+                  Read our GEO guide
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/case-studies/apex-health-aeo-geo"
+                  className="text-[#00C8FF] hover:underline"
+                >
+                  View the AEO and GEO case study
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-[#00C8FF] hover:underline">
+                  Browse frequently asked questions
+                </Link>
+              </li>
+            </ul>
+          </nav>
         )}
       </div>
     </div>

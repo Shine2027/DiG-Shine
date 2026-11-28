@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CASE_STUDIES } from "@/data/cms";
 import { ArrowLeft, ArrowUpRight, CheckCircle2, Shield, Cpu, Target, Award } from "lucide-react";
+import { openGraphForPage } from "@/lib/metadata";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
@@ -17,11 +18,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const cs = CASE_STUDIES.find((item) => item.slug === slug);
-  if (!cs) return { title: "Case Study Not Found" };
+  if (!cs) {
+    return {
+      title: "Case Study Not Found",
+      openGraph: openGraphForPage(`/case-studies/${slug}`, "Case Study Not Found", "Case study not found on DiG Shine."),
+    };
+  }
 
   return {
-    title: `${cs.title} | DiG Shine Case Study`,
+    title: cs.title,
     description: cs.summary,
+    openGraph: openGraphForPage(`/case-studies/${slug}`, cs.title, cs.summary),
     alternates: { canonical: `/case-studies/${slug}` },
   };
 }

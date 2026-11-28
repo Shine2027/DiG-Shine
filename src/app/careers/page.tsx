@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, CheckCircle2, Sparkles, Cpu, Zap, Globe, Heart } from "lucide-react";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Careers & Culture | Join DiG Shine",
   description:
     "Join the elite team building autonomous AI systems, intelligent workflow engineering, and category-defining brand experiences at DiG Shine.",
+  openGraph: openGraphForPage(
+    "/careers",
+    "Careers & Culture | Join DiG Shine",
+    "Join the elite team building autonomous AI systems, intelligent workflow engineering, and category-defining brand experiences at DiG Shine.",
+  ),
   alternates: { canonical: "/careers" },
 };
 
@@ -119,7 +125,7 @@ export default function CareersPage() {
 
                 <div>
                   <a
-                    href={`mailto:hello@digshine.in?subject=${encodeURIComponent(
+                    href={`mailto:hellodigshine@gmail.com?subject=${encodeURIComponent(
                       `Career Application: ${role.title}`
                     )}`}
                     className="btn-primary !py-3 !px-6 text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 whitespace-nowrap"

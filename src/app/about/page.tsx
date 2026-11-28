@@ -3,11 +3,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, CheckCircle2, Shield, Sparkles, Cpu, Award, Target, Zap } from "lucide-react";
 import { AGENCY_INFO } from "@/data/cms";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "About Us | Leadership & Philosophy",
   description:
     "Meet Karan Verma (CEO & Founder) and Manoj (Co-Founder), the architects behind DiG Shine. Learn how we engineer autonomous growth systems.",
+  openGraph: openGraphForPage(
+    "/about",
+    "About Us | Leadership & Philosophy",
+    "Meet Karan Verma (CEO & Founder) and Manoj (Co-Founder), the architects behind DiG Shine. Learn how we engineer autonomous growth systems.",
+  ),
   alternates: { canonical: "/about" },
 };
 
@@ -79,7 +85,7 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Founder 1: Karan Verma */}
-            <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/10 hover:border-[#00C8FF]/50 transition-all duration-300 relative group">
+            <div id="karan-verma" className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/10 hover:border-[#00C8FF]/50 transition-all duration-300 relative group">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#00C8FF] to-[#007BFF] p-0.5 flex-shrink-0">
                   <div className="w-full h-full bg-[#050505] rounded-[14px] flex items-center justify-center text-white font-display font-extrabold text-2xl">
@@ -103,12 +109,12 @@ export default function AboutPage() {
               </p>
               <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#94A3B8]">
                 <span>Specialization: Generative AI &amp; Paid Scaling</span>
-                <span className="text-[#00C8FF] font-mono">hello@digshine.in</span>
+                <span className="text-[#00C8FF] font-mono">hellodigshine@gmail.com</span>
               </div>
             </div>
 
             {/* Founder 2: Manoj */}
-            <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/10 hover:border-[#10B981]/50 transition-all duration-300 relative group">
+            <div id="manoj" className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/10 hover:border-[#10B981]/50 transition-all duration-300 relative group">
               <div className="flex items-center gap-5 mb-6">
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#10B981] to-[#00C8FF] p-0.5 flex-shrink-0">
                   <div className="w-full h-full bg-[#050505] rounded-[14px] flex items-center justify-center text-white font-display font-extrabold text-2xl">
@@ -132,7 +138,7 @@ export default function AboutPage() {
               </p>
               <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#94A3B8]">
                 <span>Specialization: Enterprise Workflows &amp; CRM</span>
-                <span className="text-[#10B981] font-mono">hello@digshine.in</span>
+                <span className="text-[#10B981] font-mono">hellodigshine@gmail.com</span>
               </div>
             </div>
           </div>

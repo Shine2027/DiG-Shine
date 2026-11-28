@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Check, Globe, Cpu, Workflow, Sparkles, TrendingUp, BarChart3, Target, Search } from "lucide-react";
 import { SERVICES_DATA } from "@/data/cms";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Services & Capabilities | Autonomous AI & Performance Marketing",
   description:
     "Explore DiG Shine's 8 core capabilities: AI Services, Business Automation, Performance Marketing, SEO/GEO, Brand Growth, Paid Advertising, and Analytics.",
+  openGraph: openGraphForPage(
+    "/services",
+    "Services & Capabilities | Autonomous AI & Performance Marketing",
+    "Explore DiG Shine's 8 core capabilities: AI Services, Business Automation, Performance Marketing, SEO/GEO, Brand Growth, Paid Advertising, and Analytics.",
+  ),
   alternates: { canonical: "/services" },
 };
 
@@ -74,16 +80,18 @@ export default function ServicesPage() {
                   </div>
 
                   {/* Metrics Highlight */}
-                  <div className="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 mb-8">
-                    {service.metrics.map((m) => (
-                      <div key={m.label}>
-                        <div className="text-lg font-bold font-display text-white group-hover:text-[#10B981] transition-colors">
-                          {m.value}
+                  {service.metrics.length > 0 && (
+                    <div className="flex items-center gap-6 p-4 rounded-2xl bg-white/[0.03] border border-white/5 mb-8">
+                      {service.metrics.map((m) => (
+                        <div key={m.label}>
+                          <div className="text-lg font-bold font-display text-white group-hover:text-[#10B981] transition-colors">
+                            {m.value}
+                          </div>
+                          <p className="text-[10px] text-[#94A3B8]">{m.label}</p>
                         </div>
-                        <p className="text-[10px] text-[#94A3B8]">{m.label}</p>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <Link

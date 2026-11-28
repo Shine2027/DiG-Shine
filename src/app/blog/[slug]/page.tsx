@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BLOG_POSTS } from "@/data/cms";
 import { ArrowLeft, Clock, ArrowUpRight, Share2, Sparkles } from "lucide-react";
+import { openGraphForPage } from "@/lib/metadata";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -17,11 +18,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = BLOG_POSTS.find((p) => p.slug === slug);
-  if (!post) return { title: "Article Not Found" };
+  if (!post) {
+    return {
+      title: "Article Not Found",
+      openGraph: openGraphForPage(`/blog/${slug}`, "Article Not Found", "Article not found on DiG Shine."),
+    };
+  }
 
   return {
-    title: `${post.title} | DiG Shine Insights`,
+    title: post.title,
     description: post.excerpt,
+    openGraph: openGraphForPage(`/blog/${slug}`, post.title, post.excerpt),
     alternates: { canonical: `/blog/${slug}` },
   };
 }
@@ -106,6 +113,32 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </span>
           ))}
         </div>
+
+        {post.slug === "generative-engine-optimization-guide-2026" && (
+          <nav
+            aria-label="Related GEO resources"
+            className="mb-16 border-t border-white/10 pt-8 text-sm text-[#94A3B8]"
+          >
+            <h2 className="text-lg font-bold text-white mb-3">Related GEO resources</h2>
+            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              <li>
+                <Link href="/services/seo-aeo-geo" className="text-[#00C8FF] hover:underline">
+                  Explore DiG Shine&apos;s SEO, AEO, and GEO service
+                </Link>
+              </li>
+              <li>
+                <Link href="/case-studies/apex-health-aeo-geo" className="text-[#00C8FF] hover:underline">
+                  View the AEO and GEO case study
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-[#00C8FF] hover:underline">
+                  Read GEO frequently asked questions
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        )}
 
         {/* Bottom CTA Card */}
         <div className="glass-card rounded-3xl p-10 text-center border border-[#00C8FF]/30 shadow-glow-card">

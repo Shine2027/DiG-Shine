@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Terms of Service | DiG Shine Agency",
   description: "Terms and conditions governing sprint engagements, SLA deliverables, and agency partnership with DiG Shine.",
+  openGraph: openGraphForPage(
+    "/terms",
+    "Terms of Service | DiG Shine Agency",
+    "Terms and conditions governing sprint engagements, SLA deliverables, and agency partnership with DiG Shine.",
+  ),
   alternates: { canonical: "/terms" },
 };
 

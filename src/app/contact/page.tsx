@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
 import { Mail, Phone, UserRound } from "lucide-react";
+import { AGENCY_INFO } from "@/data/cms";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Contact | DiG Shine",
-  description: "Get in touch with DiG Shine.",
+  description:
+    "Contact DiG Shine to discuss AI services, workflow automation, digital marketing, or SEO and GEO. Email hellodigshine@gmail.com or call our team.",
+  openGraph: openGraphForPage(
+    "/contact",
+    "Contact | DiG Shine",
+    "Contact DiG Shine to discuss AI services, workflow automation, digital marketing, or SEO and GEO. Email hellodigshine@gmail.com or call our team.",
+  ),
   alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
   const contacts = [
-    { name: "Karan Vermaaa", phone: "+91 8595366845", href: "tel:+918595366845" },
+    { name: "Karan Verma", phone: "+91 8595366845", href: "tel:+918595366845" },
     { name: "Manoj", phone: "+91 70828 28940", href: "tel:+917082828940" },
     { name: "Shreyansh", phone: "+91 92891 77164", href: "tel:+919289177164" },
   ];
@@ -48,7 +56,7 @@ export default function ContactPage() {
         </div>
 
         <a
-          href="mailto:hellodigshine@gmail.com"
+          href={`mailto:${AGENCY_INFO.email}`}
           className="glass-panel mt-5 flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 px-5 py-5 text-white transition-all duration-300 hover:border-[#10B981]/50"
         >
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#10B981]/30 bg-[#10B981]/10 text-[#10B981]">
@@ -56,7 +64,7 @@ export default function ContactPage() {
           </div>
           <div className="text-left">
             <p className="text-xs font-mono uppercase tracking-wider text-[#94A3B8]">Mail Us</p>
-            <p className="mt-1 font-semibold text-[#10B981]">hellodigshine@gmail.com</p>
+            <p className="mt-1 font-semibold text-[#10B981]">{AGENCY_INFO.email}</p>
           </div>
         </a>
       </div>

@@ -1,0 +1,29 @@
+# DiG Shine
+
+> DiG Shine is a digital growth agency founded in 2026 by Karan Verma (CEO & Founder) and Manoj (Co-Founder). The agency provides AI services, business workflow automation, digital marketing, performance marketing, and SEO, Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO).
+
+Canonical website: https://digshine.in
+
+## Services
+
+- [Services overview](https://digshine.in/services): Overview of DiG Shine's services.
+- [AI services and agents](https://digshine.in/services/ai-services): AI assistants, agents, and retrieval-augmented generation systems.
+- [Automation and workflows](https://digshine.in/services/automation-workflow): CRM and business-process workflow automation.
+- [Brand growth and positioning](https://digshine.in/services/brand-growth): Brand identity, market positioning, and messaging.
+- [Brand success and analytics](https://digshine.in/services/brand-success): Retention, customer lifetime value, and analytics.
+- [Digital marketing](https://digshine.in/services/digital-marketing): Full-funnel digital marketing services.
+- [Performance marketing](https://digshine.in/services/performance-marketing): Paid acquisition and performance marketing.
+- [Paid advertising](https://digshine.in/services/paid-advertising): Paid advertising across search, social, and video channels.
+- [SEO, AEO, and GEO](https://digshine.in/services/seo-aeo-geo): Search visibility and generative-answer optimization.
+
+## About and resources
+
+- [About DiG Shine and its founders](https://digshine.in/about)
+- [Frequently asked questions](https://digshine.in/faq)
+- [GEO guide](https://digshine.in/blog/generative-engine-optimization-guide-2026)
+- [Contact DiG Shine](https://digshine.in/contact)
+- [XML sitemap](https://digshine.in/sitemap.xml)
+
+## Contact
+
+For business inquiries: hellodigshine@gmail.com

@@ -88,7 +88,7 @@ Designed around the official **DiG Shine** emblem:
 
 ## 📇 Contact Form Setup
 
-Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`) in the local environment and hosting provider. Contact submissions are sent directly to `hello@digshine.in`; they are not stored by the website, so successful form delivery depends on the SMTP provider being configured and available.
+Configure SMTP credentials (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM`) in the local environment and hosting provider. Contact submissions are sent directly to `hellodigshine@gmail.com`; they are not stored by the website, so successful form delivery depends on the SMTP provider being configured and available.
 
 ## 💬 Chatbot & Google Sheets Setup
 

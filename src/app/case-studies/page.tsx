@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CASE_STUDIES } from "@/data/cms";
 import { ArrowUpRight, CheckCircle2, TrendingUp, Layers } from "lucide-react";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Case Studies & Work | Measurable Client Transformations",
   description:
     "Explore how DiG Shine scaled client revenues by 340%, automated operations with n8n, and achieved 4.8x blended ROAS through AI and performance marketing.",
+  openGraph: openGraphForPage(
+    "/case-studies",
+    "Case Studies & Work | Measurable Client Transformations",
+    "Explore how DiG Shine scaled client revenues by 340%, automated operations with n8n, and achieved 4.8x blended ROAS through AI and performance marketing.",
+  ),
   alternates: { canonical: "/case-studies" },
 };
 

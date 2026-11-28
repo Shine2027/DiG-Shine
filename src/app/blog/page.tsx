@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BLOG_POSTS } from "@/data/cms";
 import { ArrowUpRight, Clock, User, Sparkles, Send } from "lucide-react";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Insights & Strategy | AI, GEO & Revenue Engineering Dispatch",
   description:
     "Explore cutting-edge frameworks on Generative Engine Optimization (GEO), autonomous AI agents with n8n, and $50k+ agency design architecture.",
+  openGraph: openGraphForPage(
+    "/blog",
+    "Insights & Strategy | AI, GEO & Revenue Engineering Dispatch",
+    "Explore cutting-edge frameworks on Generative Engine Optimization (GEO), autonomous AI agents with n8n, and $50k+ agency design architecture.",
+  ),
   alternates: { canonical: "/blog" },
 };
 

@@ -217,8 +217,8 @@ export function Navbar() {
               <div className="text-center">
                 <p className="text-xs text-[#94A3B8]">
                   Direct Founder Desk:{" "}
-                  <a href={`mailto:hello@digshine.in`} className="text-white hover:text-[#00C8FF] transition-colors font-mono">
-                    hello@digshine.in
+                  <a href={`mailto:hellodigshine@gmail.com`} className="text-white hover:text-[#00C8FF] transition-colors font-mono">
+                    hellodigshine@gmail.com
                   </a>
                 </p>
               </div>

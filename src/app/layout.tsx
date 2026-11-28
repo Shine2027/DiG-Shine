@@ -58,7 +58,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://digshine.in",
     title: "DiG Shine — Scale Your Business with AI, Automation & Performance Marketing",
     description:
       "Automate • Innovate • Elevate. World-class AI solutions, autonomous workflows, and performance marketing engineered for exponential scale.",

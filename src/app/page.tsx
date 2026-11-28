@@ -7,8 +7,14 @@ import { StatsCounter } from "@/components/home/StatsCounter";
 import { ProcessSection } from "@/components/home/ProcessSection";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { SERVICES_DATA, INDUSTRIES_SERVED, AGENCY_INFO } from "@/data/cms";
+import { openGraphForPage } from "@/lib/metadata";
 
 export const metadata: Metadata = {
+  openGraph: openGraphForPage(
+    "/",
+    "DiG Shine — Scale Your Business with AI, Automation & Performance Marketing",
+    "Automate • Innovate • Elevate. World-class AI solutions, autonomous workflows, and performance marketing engineered for exponential scale.",
+  ),
   alternates: {
     canonical: "/",
   },
